@@ -1,0 +1,307 @@
+\begin{frame}
+    \begin{itemize}
+        \item     Soit $d \in \bbN^*$. Soit un ouvert borné $\Omega \subset \bbR^d$.
+Pour simplifier l'étude, on prendra des conditions de Dirichlet homogènes et un second membre nul.
+Si on se donne une donnée initiale $u_0$, on peut reformuler 
+l'équation de Rayleigh-Stokes de la façon suivante : trouver $u \in \scrC^1(\bbR, \Hone)$ 
+tel que pour tout $t \in \bbR$
+\begin{equation}\label{pb_RS}
+\begin{cases}
+    u'(t) - \nu\Delta u(t) - \alpha\Delta \big(u'(t)\big) = 0  \\
+    u(0) = u_0
+\end{cases}
+\end{equation}
+\item     On définit deux opérateurs $M$ et $L$ par
+\begin{eqnarray*}
+    M := I - \alpha \Delta \ \ \ \ \ &\text{ et }& \ \ \ \ \ L :=-\nu\Delta
+\end{eqnarray*}
+de sorte à reformuler le problème \eqref{pb_RS} en : trouver $u \in \scrC^1(\bbR, \Hone)$ tel que pour tout $t \in \bbR$
+\begin{equation}\label{RS_forme_operateur}
+\begin{cases}
+    Mu'(t) + Lu(t)=0  \\
+    u(0) = u_0
+\end{cases}
+\end{equation} 
+    \end{itemize}
+\end{frame}
+
+\subsection{Extension de $M$ et $L$}
+
+\begin{frame}
+\begin{block}{Théorème}
+    Soient $(H, \langle \cdot, \cdot \rangle)$ et $(H_0, \langle \cdot, \cdot \rangle_0)$ deux espaces de Hilbert tels que $H$ est un sous-espace dense de $H_0$ et 
+\begin{equation}\label{ineq_thm_lax}
+    \exists k >0,\ \forall x \in H, \ \norm{x} \geq k \norm{x}_0
+\end{equation}
+Soit $B$ une forme bilinéaire continue et coercive sur $H$. Alors il existe deux opérateurs linéaires $E$ et $E^*$, dont les domaines de définitions $D$ et $D^*$ sont denses dans $H$, tels que
+\begin{enumerate}
+    \item[1.] On a
+    \begin{eqnarray*}
+        \forall x \in D,\ \forall y \in H, \ B(x,y) &=& \ps{Ex}{y}_0 \\
+        \forall y \in D^*,\ \forall x \in H, \ B(x,y) &=& \ps{x}{E^* y}_0
+    \end{eqnarray*}
+    \item[2.] L'image de $E$ est $H_0$, de même pour $E^*$.
+    \item[3.] $E$ et $E^*$ admettent des inverses $S$ et $S^*$ qui sont continus de $H_0$ dans $H$.
+    \begin{eqnarray*}
+        \exists k_1>0,\ \forall z \in H_0, \ \norm{Sz} &\leq& k_1 \norm{z}_0 \\
+        \exists k_1^*>0,\ \forall z \in H_0, \ \norm{S^*z} &\leq& k_1^* \norm{z}_0
+    \end{eqnarray*}
+    Et donc, avec \eqref{ineq_thm_lax}, $S$ et $S^*$ sont continus de $H_0$ dans $H_0$
+    %\begin{eqnarray*}
+    %    \exists k_2>0,\ \forall z \in H_0, \ \norm{Sz}_0 &\leq& k_2 \norm{z}_0 \\
+    %    \exists k_2^*>0,\ \forall z \in H_0, \ \norm{S^*z}_0 &\leq& k_2^* \norm{z}_0
+    %\end{eqnarray*}
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}
+    \begin{itemize}
+    \item Dans notre cas, on considère les espaces de Hilbert $H=H^1_0(\Omega)$ et $H_0=L^2(\Omega)$. On utilisera les inclusions suivantes
+\begin{equation*}
+    \calD(\Omega) \ \subset \ \Hone \ \subset \ L^2(\Omega)
+\end{equation*}
+et comme $\overline{\calD(\Omega)}^{L^2(\Omega)}$ = $L^2(\Omega)$, on a bien 
+\begin{equation*}
+    \overline{\Hone}^{L^2(\Omega)} = L^2(\Omega)
+\end{equation*} 
+\item De plus, on a 
+\begin{equation*}
+    \forall \varphi \in \Hone, \ \|\varphi\|_{L^2} \leq \|\varphi\|_{H^1}
+\end{equation*}
+    \item On va maintenant chercher à établir une formulation faible de notre équation du problème \eqref{pb_RS}. Soit donc $v \in \Hone$. 
+\begin{eqnarray*}
+    \int_{\Omega}Mu'(t)v + \int_{\Omega} Lu(t)v =0 %&\Longrightarrow&
+    %\int_{\Omega} u'(t)v - \alpha \int_{\Omega} \Delta u'(t)v - \nu \int_{\Omega}
+    %\Delta u(t)v = 0 \\
+    %&\overset{\text{Green}}{\Longrightarrow}& \int_{\Omega} u'(t)v + \alpha \int_{\Omega} \nabla u'(t)\cdot\nabla v + \nu \int_{\Omega}
+    %\nabla u(t)\cdot \nabla v = 0 \\
+    &\overset{\text{Green}}{\Longrightarrow}& \int_{\Omega} \big(u'(t)v+\alpha\nabla u'(t)\cdot\nabla v\big) \\
+    &+& \nu\int_{\Omega} \nabla u(t)\cdot \nabla v = 0
+\end{eqnarray*} 
+\item On définit ainsi deux formes bilinéaires sur $\Hone$
+\begin{eqnarray*}
+    b_M(\varphi, \psi) = \int_{\Omega} \big(\varphi\psi+\alpha\nabla \varphi\cdot\nabla \psi\big) \ \ \ \ \ &\text{ et }& \ \ \ \ \
+    b_L(\varphi, \psi) = \nu\int_{\Omega} \nabla \varphi\cdot \nabla \psi
+\end{eqnarray*} 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+    \begin{itemize}
+\item On obtient ainsi le problème variationnel associé au problème continu \eqref{RS_forme_operateur} : pour tout $t \in \bbR$, trouver $u(t) \in \Hone$ tel que
+\begin{equation*}
+    \forall v \in \Hone, \ b_M\big(u'(t),v\big) + b_L\big(u(t),v\big) = 0
+\end{equation*}
+    \item On montre que $b_M$ et $b_L$ sont continues et coercives sur $H^1_0(\Omega)$. 
+    \item On peut appliquer le théorème, ainsi il existe deux opérateurs $M_0$ et 
+    $L_0$, définis respectivement sur $D(M_0)$ et $D(L_0)$, qui sont denses dans $H^1_0(\Omega)$. 
+    \item Le théorème nous assure également de l'existence de $M^{-1}_0$ et 
+du fait que cet inverse est continu de $L^2(\Omega)$ dans 
+$H^1_0(\Omega)$. 
+\item Finalement, \eqref{RS_forme_operateur} se 
+réécrit comme le problème suivant
+\begin{equation}\label{edo_ML}
+\begin{cases}
+    u'(t) = -M^{-1}_0 L_0u(t)  \\
+    u(0) = u_0
+\end{cases}
+\end{equation}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+    \begin{itemize}
+        \item Nous voulons désormais étendre $-M^{-1}_0 L_0$ pour que \eqref{RS_forme_operateur} soit bien défini dans $\Hone$. 
+        \item L'application du théorème nous a donne deux opérateurs étendus qui sont des bijections
+\begin{eqnarray*}
+    M_0 : D(M_0) \longrightarrow L^2(\Omega) \ \ \ \ \ &\text{ et }& \ \ \ \ \ L_0 : D(L_0) \longrightarrow L^2(\Omega)
+\end{eqnarray*}
+Cela justifie que  $-M^{-1}_0L_0 : D(L_0)\longrightarrow D(M_0)$ est une bijection. 
+\item On considère l'application $-M^{-1}_0L_0 : \calD(\Omega)
+\longrightarrow \Hone$. 
+\item On montre que, l'opérateur $-\operateurs$ est continue sur 
+$\Hone$. Alors, il existe un unique opérateur 
+$B : \Hone \longrightarrow \Hone$ qui prolonge $-\operateurs$. 
+    \item Notre équation \eqref{edo_ML} devient donc
+\begin{eqnarray}\label{edo_ML_B}
+\begin{cases}
+    u'(t) = Bu(t)  \\
+    u(0) = u_0
+\end{cases}
+\end{eqnarray}
+\end{itemize} 
+\end{frame}
+
+\subsection{Existence et unicité}
+
+\begin{frame}
+    \begin{block}{Remarque}
+        Dans le cas d'un système différentiel linéaire de la forme
+\begin{equation*}
+    \left\{\begin{array}{c}
+        u' + Au = 0 \\
+        u(0) = u_0
+    \end{array}\right.
+\end{equation*}
+La solution est de la forme $u = e^{-tA} u_0$. 
+Pour résoudre \eqref{edo_ML_B} nous allons définir $\exp(tB)$.
+    \end{block}
+\begin{itemize}
+\item On a $B \in \mathscr{L}(\Hone)$, qui est un espace vectoriel complet. 
+\item On peut donc définir l'exponentielle de la façon suivante
+\begin{eqnarray*}
+\forall t \in \mathbb{R},\  E(t) := \exp(tB) = \sum_{k=0}^{+\infty} \frac{(tB)^k}{k!}
+\end{eqnarray*} 
+\end{itemize}
+    \begin{block}{Remarque}
+        \begin{enumerate}
+        \item[1.] \label{E_groupe_abelien} $\{ E(t) \ | \ t \in \mathbb{R} \}$ est un groupe abélien. 
+        \item[2.] Chaque $E(t)$ est un opérateur bornée de $\Hone$ et la dépendance en $t$ est continue pour la topologie des opérateurs. %En effet, soit 
+        %$t_0 \in \bbR$, on a par continuité de $\exp$ et par continuité de $B$
+        %\begin{eqnarray*}
+        %    \vertiii{E(t)-E(t_0)}_1 &=& \vertiii{\ex^{tB}-\ex^{t_0B}}_1 \\
+        %    &=& \vertiii{\ex^{t_0B}\big(\ex^{(t-t_0)B}-I\big)}_1 \\
+        %    &\leq& \vertiii{\ex^{t_0B}}_1\vertiii{\ex^{(t-t_0)B}-I}_1 \\
+        %    &=& \vertiii{\ex^{t_0B}}_1 \vertiii{\sum_{k=1}^{+\infty}\frac{\big((t-t_0)B\big)^k}{k!}} \\
+        %    &\leq& \vertiii{\ex^{t_0B}}_1 (\exp{(|t-t_0|\vertiii{B}_1)}-1)\underset{t \to t_0}{\longrightarrow} 0
+        %\end{eqnarray*}
+        \item[3.] $E(t)$ est dérivable pour la topologie des opérateurs et $E'(t) = B E(t)$. %En effet, soit $h>0$, on utilise le fait que $\{ E(t) \ | \ t \in \mathbb{R} \}$ est un groupe abélien et que $E$ est continue en $t$
+        %\begin{eqnarray*}
+        %    \vertiii{\frac{E(t+h)-E(t)}{h}-BE(t)}_1 &=& \vertiii{E(t)\Big(\frac{E(h)-I}{h}\Big)-B} \\
+        %    &\leq& \vertiii{E(t)}_1 \vertiii{\frac{E(h)-I}{h}-B}_1 \\
+        %    &=& \vertiii{E(t)}_1 \vertiii{BE(h)-B}_1\underset{h \to 0}{\longrightarrow} 0
+        %\end{eqnarray*}
+        %car par un changement d'indice on a obtenu
+        %\begin{equation*}
+        %    \frac{E(h)-I}{h} = \frac{1}{h}\sum_{k=1}^{+\infty} \frac{h^kB^k}{k!} = \sum_{k=1}^{+\infty} \frac{h^{k-1}B^k}{k!} = \sum_{k=0}^{+\infty}\frac{h^kB^{k+1}}{k!} = BE(h)
+        %\end{equation*}
+    \end{enumerate}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Existence}
+    \begin{itemize}
+        \item Soit $u_0 \in \Hone$.
+        \item On pose pour tout $t \in \bbR,\ u(t) = E(t)u_0$. 
+        \item Alors par la remarque précédente, on obtient
+\begin{eqnarray*}
+    u'(t) = E'(t)u_0 = B E(t)u_0 = Bu(t)
+\end{eqnarray*} 
+\item Le point $1$ de notre remarque implique aussi que $E(0) = I$, donc
+\begin{eqnarray*}
+    u(0) = E(0)u_0 = u_0
+\end{eqnarray*} 
+\item On a bien montré l'existence d'une solution au problème \eqref{edo_ML_B}. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Unicité}
+    \begin{itemize}
+        \item Montrons maintenant que cette solution est unique. 
+        \item Soit $v(t)$ un autre solution du problème. 
+        \item On pose $w$ tel que
+\begin{eqnarray*}
+    \forall t \in \bbR ,\ w(t) := u(t) - v(t)
+\end{eqnarray*} 
+\item On vérifie que $w(t)$ est aussi solution du problème \eqref{edo_ML_B} avec pour donnée initiale $w(0)=0$. Posons 
+\begin{equation*}
+    \forall t \in \bbR, \ \alpha(t) := \|w(t)\|_{H^1}^2=\ps{w(t)}{w(t)}_{H^1}
+\end{equation*}
+        \item On a $\alpha'(t) = 2\langle Bw(t),w(t)\rangle_{L^2}$. 
+        \item En appliquant l'inégalité de Cauchy-Schwarz on aboutit à $\abs{\alpha'(t)} \leq 2\norm{B}_1 \alpha(t)$. 
+        \item Ce qui nous permet d'utiliser le lemme de Grönwall
+\begin{eqnarray*}
+    \forall t \in \bbR, \ \alpha(t) \leq \alpha(0)\exp\bigr(\abs{t}\norm{B}_1\bigl)
+\end{eqnarray*} 
+\item Or, $w(0) = 0$, donc $\norm{w(0)}^2_{H^1}=0$, ainsi
+\begin{eqnarray*}
+    \forall t \in \bbR, \ \norm{w(t)}^2_1 = 0 \Longrightarrow w(t) = 0
+    \Longrightarrow u(t) = v(t)
+\end{eqnarray*}
+D'où l'unicité de la solution.
+    \end{itemize}
+\end{frame}
+
+\subsection{Le cas vectoriel}
+
+\begin{frame}
+    \begin{itemize}
+        \item On peut également dériver une équation de Rayleigh-Stokes vectorielle, mais dans ce cas, on conserve un terme de pression comme pour le problème de Stokes.
+        \begin{equation*}
+            \left\{\begin{array}{l}
+                \partial_t\bfm{u} - \nu\Delta \bfm{u} - \alpha\Delta \big(\partial_t \bfm{u}\big) = -\nabla \tilde{p} + \bfm{f}  \\
+                \Div (\bfm{u}) = 0
+            \end{array}\right.
+        \end{equation*}
+        \item On peut reproduire l'analyse précédente en se plaçant, comme pour le problème de Stokes, sur l'espace à divergence nulle $V := \{\bfm{v} \in \big(\Hone\big)^d \ \ | \ \ \Div(\bfm{v}) = 0\}$.
+        \item Il faut cependant utiliser le lemme de De Rham pour reconstruire le champ de pression.
+        \begin{block}{Lemme de De Rham}
+    Soient un ouvert $\Omega \subset \bbR^d$ et $\bfm{f} \in \big(\calD'(\Omega)\big)^d$. Alors il existe 
+    $p \in \calD'(\Omega)$ tel que $\bfm{f} = \nabla p$ si et seulement si 
+    \begin{equation*}
+        \forall \bfm{v} \in \calD_{\sigma}(\Omega), \ \langle \bfm{f}, \bfm{v} \rangle =0
+    \end{equation*}
+\end{block}
+\item La version la plus générale de cette équation, encore étudiée aujourd'hui, et cette forme vectorielle avec le laplacien fractionnaire.
+\begin{equation*}
+            \left\{\begin{array}{l}
+                \partial_t\bfm{u} + \nu(-\Delta)^{\beta} \bfm{u} + \alpha(-\Delta)^{\beta} \big(\partial_t \bfm{u}\big) = -\nabla \tilde{p} + \bfm{f}  \\
+                \Div (\bfm{u}) = 0
+            \end{array}\right.
+        \end{equation*}
+    \end{itemize}
+\end{frame}
+
+%\begin{frame}
+%\begin{itemize}
+%        \item On considère le problème vectoriel : trouver $(\bfm{u},\tilde{p}) \in \scrC^1\big(\bbR, \big(\Hone\big)^d\big) \times \scrC^0(\bbR, L^2(\Omega))$ tel que
+%\begin{equation*}
+%    \left\{\begin{array}{l}
+%        \bfm{u}'(t) - \nu\Delta \bfm{u}(t) - \alpha\Delta \big(\bfm{u}'(t)\big) = -\nabla \tilde{p}(t) \\
+%         \Div (\bfm{u}(t)) = 0 \\
+%         \bfm{u}(0) = \bfm{u}_0 
+%    \end{array}\right.
+%\end{equation*}
+%\item Pour résoudre ce problème on a cherché à reproduire le 
+%raisonnement dans le cas scalaire en adaptant les espaces 
+%considérés.
+%\item On introduit l'espace de Hilbert
+%\begin{equation*}
+%    V := \{\bfm{v} \in \big(\Hone\big)^d \ \ | \ \ \Div(\bfm{v}) = 0\}
+%\end{equation*}
+%et l'espace 
+%\begin{equation*}
+%    \calD_{\sigma}(\Omega) := \{\bfm{\varphi} \in \big(\calD(\Omega)\big)^d \ \ | \ \ \Div(\bfm{\varphi}) = 0\}
+%\end{equation*}
+%    \end{itemize}
+%\begin{block}{Théorème}
+%    Si $\Omega \subset \bbR^d$ est un ouvert borné à la frontière suffisamment régulière alors $\calD_{\sigma}(\Omega)$ est dense dans $V$.
+%\end{block}
+%\end{frame}
+
+%\begin{frame}{Détermination de la pression}
+%    \begin{itemize}
+%        \item Pour tout $t \in \bbR$, $\bfm{u}(t)$ est solution au sens des distributions. On a donc pour tout $t \in \bbR$
+%\begin{equation*}
+%    \forall \bfm{v} \in \calD_{\sigma}(\Omega), \ \langle \bfm{u}'(t) - \nu \Delta \bfm{u}(t) - \alpha \Delta \bfm{u}'(t), \bfm{v} \rangle = 0
+%\end{equation*}
+%\end{itemize}
+%\begin{block}{Lemme de De Rham}
+%    Soient un ouvert $\Omega \subset \bbR^d$ et $\bfm{f} \in \big(\calD'(\Omega)\big)^d$. Alors il existe 
+%    $p \in \calD'(\Omega)$ tel que $\bfm{f} = \nabla p$ si et seulement si 
+%    \begin{equation*}
+%        \forall \bfm{v} \in \calD_{\sigma}(\Omega), \ \langle \bfm{f}, \bfm{v} \rangle =0
+%    \end{equation*}
+%\end{block}
+%\begin{itemize}
+%\item On applique ce résultat pour $\bfm{u}'(t) - \nu \Delta \bfm{u}(t) - \alpha \Delta\bfm{u}'(t) \in V'$, ce qui nous donne l'existence de $p \in \calD'(\Omega)$ tel que 
+%\begin{equation*}
+%    \bfm{u}'(t) - \nu \Delta \bfm{u}(t) - \alpha\Delta \bfm{u}%'(t) = -\nabla p
+%\end{equation*}
+%\item Ceci étant vrai pour tout $t \in \bbR$, on définit une fonction $\tilde{p}:\bbR \rightarrow \calD'(\Omega)$ telle que 
+%\begin{equation*}
+%    \bfm{u}'(t) - \nu \Delta \bfm{u}(t) - \alpha\Delta \bfm{u}'(t) = -\nabla \tilde{p}(t)
+%\end{equation*}
+%    \end{itemize}
+%\end{frame}

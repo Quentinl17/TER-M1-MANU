@@ -1,0 +1,142 @@
+\begin{frame}
+\begin{itemize}
+    \item On considère un fluide visqueux au repos que l'on suppose incompressible, 
+homogène et ne subissant aucune force extérieure. Le problème de Stokes consiste à étudier 
+la vitesse du fluide dans la situation suivante
+\end{itemize}
+\begin{figure}[!h]
+    \centering
+    \tdplotsetmaincoords{70}{120}
+    \begin{tikzpicture}[tdplot_main_coords, scale=1.4]
+        % ----- PLAQUE (plan y=0, dans le plan xz) -----
+        \fill[blue!15, opacity=0.7] (-2.5,-2.5,0) -- (2.5,-2.5,0) -- (2.5,2.5,0) -- (-2.5,2.5,0) -- cycle;
+        \draw[gray!60] (-2.5,-2.5,0) -- (2.5,-2.5,0) -- (2.5,2.5,0) -- (-2.5,2.5,0) -- cycle;
+        % Label plaque
+        \node[blue!60!black] at (2.8, 1.5, 0) {plaque $y=0$};
+
+        % ----- REPÈRE -----
+        % Axe x (e1)
+        \draw[->, thick] (0,0,0) -- (2.5,0,0) node[anchor=north] {$x$};
+        \draw[->, red] (0,0,0) -- (1,0,0) node[above left] {$e_1$};
+        % Axe y (e2) vers le haut
+        \draw[->, thick] (0,0,0) -- (0,0,2.5) node[anchor=south] {$y$};
+        \draw[->, green] (0,0,0) -- (0,0,1) node[right] {$e_2$};
+        % Axe z (e3)
+        \draw[->, thick] (0,0,0) -- (0,2.5,0) node[anchor=west] {$z$};
+        \draw[->, blue] (0,0,0) -- (0,1,0) node[below right] {$e_3$};
+        % Origine
+        \filldraw[black] (0,0,0) circle (1.5pt) node[below] {$O$};
+
+        % ----- FLUIDE (demi-espace y>0) -----
+        \fill[cyan!10, opacity=0.3]
+            (-2.5,-2.5,0) -- (2.5,-2.5,0) -- (2.5,-2.5,2.2)
+            -- (-2.5,-2.5,2.2) -- cycle;
+        \fill[cyan!10, opacity=0.3]
+            (2.5,-2.5,0) -- (2.5,2.5,0) -- (2.5,2.5,2.2)
+            -- (2.5,-2.5,2.2) -- cycle;
+        \fill[cyan!10, opacity=0.3]
+            (-2.5,-2.5,2.2) -- (2.5,-2.5,2.2) -- (2.5,2.5,2.2)
+            -- (-2.5,2.5,2.2) -- cycle;
+        \fill[cyan!10, opacity=0.3]
+            (2.5,2.5,0) -- (-2.5,2.5,0) -- (-2.5,2.5,2.2)
+            -- (2.5,2.5,2.2) -- cycle;
+        \node[cyan!50!black] at (2.2, -1.5, 1.8) {fluide $y>0$};
+
+        % ----- FLÈCHE DE DÉPLACEMENT DE LA PLAQUE -----
+        \draw[->, line width=2pt, red!80!black]
+            (-0.5, -1.8, 0) -- (1.2, -1.8, 0)
+            node[midway, above, sloped] {\small $V e_1$};
+
+        % ----- POINT X -----
+        \filldraw[black] (-0.4, 1.0, 1.2) circle (1.5pt);
+        \node[above right] at (-0.4, 1.0, 1.2) {$X = (x,y,z)$};
+    \end{tikzpicture}
+    \caption{Configuration du premier problème de Stokes}
+    \label{fig:pbmStokes}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item On considère donc la vitesse du fluide
+\begin{eqnarray*}
+    \bfm{u} : \bbR^3 \times \bbR_+ \longrightarrow \bbR^3, \
+    (X,t) \longmapsto \big(u_1(X,t), u_2(X,t), u_3(X,t)\big)
+\end{eqnarray*} 
+\item Le contexte du premier problème de Stokes nous amène à quelques 
+simplifications. 
+\begin{equation*}
+    \bfm{u} (X,t) = \big(u_1(y,t),0,0\big)
+\end{equation*} 
+\item Comme le fluide est incompressible et homogène on a 
+\begin{eqnarray*}
+    \rho(X,t) \equiv \rho > 0 \ \ \ &\text{ et }& \ \ \ \Div(\bfm{u})=0
+\end{eqnarray*} 
+\item Les équations du mouvement du milieu continu nous donne 
+\begin{equation}\label{PFD1}
+    \rho \frac{D\bfm{u}}{Dt} = \Div(\sigma) + \rho \bfm{f}
+\end{equation}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+    \item Pour un fluide de second grade, le tenseur des contraintes est 
+donné par le théorème de Rivlin-Ericksen 
+\begin{equation*}
+    \sigma := -pI + \mu A_1 + \alpha_1 A_2 + \alpha_2 A_1^2
+\end{equation*}
+où
+\begin{itemize}
+    \item[$\triangleright$] $pI$ est la contrainte isotropique avec $p$ la pression,
+    \item[$\triangleright$] $A_1 := \nabla \bfm{u} + \nabla^t \bfm{u}$,
+    \item[$\triangleright$] $A_2 := \dfrac{D}{Dt}A_1 + A_1\nabla \bfm{u} + \nabla^t\bfm{u} A_1$,
+    \item[$\triangleright$] $\mu >0$ est la viscosité du fluide,
+    \item[$\triangleright$] $\alpha_1$ et $\alpha_2$ sont des paramètres thermodynamiques qui doivent vérifier 
+    \begin{eqnarray*}
+        \alpha_1 \geq 0 \ \ \ \ \ \text{ et } \ \ \ \ \ \alpha_1 + \alpha_2 = 0
+    \end{eqnarray*}
+    pour que le modèle soit physiquement admissible.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+    \item Le tenseur des contraintes est
+\begin{equation*}
+    \sigma = \begin{pmatrix}
+        -p+\alpha_2(\partial_yu_1)^2 & \mu\partial_yu_1 + \alpha_1 \partial_{ty}u_1 & 0 \\
+        \mu \partial_yu_1+\alpha_1\partial_{ty} u_1 & -p+(2\alpha_1+\alpha_2)(\partial_yu_1)^2 & 0 \\
+        0 & 0 & -p
+    \end{pmatrix}
+\end{equation*} 
+\item On applique l'opérateur divergence à $\sigma$ et on injecte dans \eqref{PFD1} et 
+\begin{equation*}
+    \left\{\begin{array}{rcl}
+        \rho\partial_tu_1 & = & -\partial_xp + \mu \partial_{yy}u_1 + \alpha_1 \partial_{yty}u_1  \\
+        0 & = & - \partial_yp+2(2\alpha_1+\alpha_2)\partial_yu_1\partial_{yy}u_1 \\
+        0 & = & - \partial_zp
+    \end{array}\right.
+\end{equation*}
+    \item L'invariance par translation dans les directions $e_1$ et $e_3$ implique que 
+la pression ne dépend pas de $x$ et $z$, donc $\partial_xp=0$.
+\item On obtient finalement l'équation de Rayleigh-Stokes homogène en une dimension
+\begin{equation*}
+    \partial_t u_1 - \nu \partial_{yy}u_1 - \alpha \partial_{tyy}u_1=0
+\end{equation*}
+où $\nu := \dfrac{\mu}{\rho}$ et $\alpha := \dfrac{\alpha_1}{\rho}$.
+\end{itemize}
+\end{frame}
+
+%\begin{frame}
+%\begin{itemize}
+%    \item L'invariance par translation dans les directions $e_1$ et $e_3$ implique que 
+%la pression ne dépend pas de $x$ et $z$, donc $\partial_xp=0$.
+%\item On obtient finalement l'équation de Rayleigh-Stokes homogène en une dimension
+%\begin{equation*}
+%    \partial_t u_1 - \nu \partial_{yy}u_1 - \alpha \partial_{tyy}u_1=0
+%\end{equation*}
+%où $\nu := \dfrac{\mu}{\rho}$ et $\alpha := \dfrac{\alpha_1}{\rho}$.
+%\end{itemize}
+%\end{frame}
