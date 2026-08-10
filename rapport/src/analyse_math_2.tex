@@ -1,0 +1,259 @@
+% ==========================================================================
+\section{Analyse mathématique}
+% =========================================================================
+
+\subsection{Analyse de Fourier}
+
+Dans cette section, on considère le problème
+\begin{equation*}
+    \begin{cases}
+        \partial_tu(t,x) - \nu\Delta u(t,x) - \alpha\Delta \big(\partial_t u(t,x)\big) = 0 & (t,x) \in \mathbb R_+ \times \bbR^d  \\
+        u(0,x) = u_0(x) & x \in \bbR^d
+    \end{cases}
+\end{equation*}
+où l'on précisera la régularité de la donnée initiale $u_0$ dans les sections suivantes. On prendra pour convention la transformée de Fourier \og normalisée \fg{}
+définie par
+\begin{equation*}
+    \hat{u}(\xi)=\calF\big(u(x)\big)(\xi) = \frac{1}{(2\pi)^{d/2}}\int_{\bbR^d} \ex^{-ix\cdot\xi}u(x)\mathrm{d}x
+\end{equation*}
+le contexte étant suffisament clair, on notera plus simplement $x\xi$ le produit scalaire $x \cdot \xi$. Soit $s \in \bbR$ l'exposant pour les espaces de Sobolev.
+\subsubsection{Donnée initiale dans \texorpdfstring{$\scrS'(\bbR^d)$}{S'(Rd)}}
+On considère $u_0 \in \scrS'(\bbR^d)$. Comme dans la section précédente, on peut reformuler le problème précédent de la façon suivante : trouver $u \in \scrC^1(\bbR_+, \scrS'(\bbR^d))$ tel que 
+\begin{equation}\label{pb_RS4}
+    \begin{cases}
+        u'(t) - \nu\Delta u(t) - \alpha\Delta \big(u'(t)\big) = 0  \\
+        u(0) = u_0
+    \end{cases}
+\end{equation}
+\paragraph{Unicité.} On suppose qu'il existe une solution $u \in \scrC^1(\bbR_+,\scrS'(\bbR^d))$. On applique la transformée de Fourier au problème \eqref{pb_RS4}. On obtient pour la donnée initiale
+\begin{equation*}
+    \hat{u}(0) = \hat{u}_0
+\end{equation*}
+et pour l'équation, on utilise la linéarité de $\calF$
+\begin{equation*}
+    \calF\big(u'(t)\big)-\nu\calF\big(\Delta u(t)\big)-\alpha\calF\big(\Delta(u'(t))\big) = 0
+\end{equation*}
+Montrons que $\calF\big(u'(t)\big)=\hat{u}'(t)$. On étudie d'abord la dérivabilité de $t \mapsto \hat{u}(t)$. Soient $t \in \bbR_+$ et $h>0$. On a par linéarité de $\calF$
+\begin{equation*}
+    \frac{\hat{u}(t+h)-\hat{u}(t)}{h} = \calF\bigg(\frac{u(t+h)-u(t)}{h}\bigg)
+\end{equation*}
+comme par hypothèse, $u \in \scrC^1(\bbR_+,\scrS'(\bbR^d))$ on a
+\begin{equation*}
+    \frac{u(t+h)-u(t)}{h} \overset{\scrS'}{\underset{h \to 0}{\longrightarrow}} u'(t)
+\end{equation*}
+et, on sait que $\calF : \scrS'(\bbR^d) \longrightarrow \scrS'(\bbR^d)$ est continue donc 
+\begin{equation*}
+    \calF\bigg(\frac{u(t+h)-u(t)}{h}\bigg) \overset{\scrS'}{\underset{h \to 0}{\longrightarrow}} \calF\big(u'(t)\big)
+\end{equation*}
+donc $t \mapsto \hat{u}(t)$ est dérivable et on a $\calF\big(u'(t)\big)=\hat{u}'(t)$. 
+\\
+Montrons que $\calF\Big(\dfrac{\mathrm{d}}{\mathrm{d}t}\Delta u(t)\Big) = -\|\xi\|^2\hat{u}'(t)$. Soient $t \in \bbR_+$ et $h>0$. On a toujours par linéarité de $\calF$
+\begin{equation*}
+    \frac{\calF\big(\Delta u(t+h)\big)-\calF\big(\Delta u(t)\big)}{h} = -\|\xi\|^2\calF\bigg(\frac{u(t+h)-u(t)}{h}\bigg)
+\end{equation*}
+par les mêmes arguments que précédemment, on a 
+\begin{equation*}
+    \frac{\calF\big(\Delta u(t+h)\big)-\calF\big(\Delta u(t)\big)}{h} \overset{\scrS'}{\underset{h \to 0}{\longrightarrow}} -\|\xi\|^2\hat{u}'(t)
+\end{equation*}
+Finalement, on obtient le problème suivant
+\begin{equation}\label{pb_RS_Fourier}
+    \begin{cases}
+        (1+\alpha\|\xi\|^2)\hat{u}'(t)+\nu\|\xi\|^2\hat{u}(t) = 0  \\
+        \hat{u}(0) = \hat{u}_0
+    \end{cases}
+\end{equation}
+On obtient 
+\begin{equation*}
+    \hat{u}(t)(\xi) = \exp\bigg(\frac{-\nu \|\xi\|^2}{1+\alpha\|\xi\|^2}t\bigg)\hat{u}_0(\xi)
+\end{equation*}
+On pose alors 
+\begin{equation}\label{sol_Fourier}
+    \forall (t,x) \in \bbR_+\times \bbR^d, \ u(t,\xi) = \calF^{-1}\bigg(\exp\bigg(\frac{-\nu \|\xi\|^2}{1+\alpha\|\xi\|^2}t\bigg)\hat{u}_0(\xi)\bigg)(x)
+\end{equation}
+Si $u_0=0$ alors $\hat{u}_0=0$ par injectivité de $\calF$, $\hat{u}=0$ et donc, par injectivité de $\calF$, $u=0$. Ce qui démontre l'unicité de la solution de \eqref{pb_RS4}.
+
+\paragraph{Existence.} On va maintenant montrer que la fonction $u$ définie par \eqref{sol_Fourier} est solution de classe $\scrC^1$ de \eqref{pb_RS4}. On pose 
+pour tout $(t,\xi) \in \bbR_+ \times \bbR^d$, $\hat{\calK}(t,\xi) := \exp\Big(\dfrac{-\nu \|\xi\|^2}{1+\alpha\|\xi\|^2}t\Big)$.
+\\
+Montrons dans un premier temps qu'à $t \in \bbR_+$ fixé, $\xi \mapsto \hat{\calK}(t,\xi)$ est un multiplicateur de $\scrS'(\bbR^d)$. Soit $t \in \bbR_+$. L'application $\xi \mapsto \hat{\calK}(t,\xi)$ est $\scrC^{\infty}$ par composition et on a 
+\begin{equation}\label{ineq_K}
+    \forall \xi \in \bbR^d, \ |\hat{\calK}(t,\xi)| \leq 1
+\end{equation}
+donc $\hat{\calK}(t,\cdot) \in \scrCinfp(\bbR^d)$. On sait que $\hat{u}_0 \in\scrS'(\bbR^d)$ car $u_0 \in \scrS'(\bbR^d)$ et $\scrS'(\bbR^d)$ est stable par $\calF$, on sait aussi que $\scrS'(\bbR^d)$ est stable par multiplication par les éléments de $\scrCinfp(\bbR^d)$, donc $\hat{\calK}(t,\cdot)$ est bien un multiplicateur de $\scrS'(\bbR^d)$ et $\hat{u}(t) \in \scrS'(\bbR^d)$.
+\\
+Montrons ensuite que $\hat{u}$ est dérivable et que $\hat{u}'$ est continue. Soient $t \in \bbR_+$ et $h>0$. Soit $\varphi \in \scrS(\bbR^d)$. On a 
+\begin{eqnarray*}
+    \Big\langle\frac{\hat{u}(t+h)-\hat{u}(t)}{h},\varphi \Big\rangle &=& \frac{1}{h}\big(\langle \hat{u}(t+h),\varphi\rangle - \langle \hat{u}(t),\varphi\rangle\big) \\
+    &=&\frac{1}{h}\big(\langle \hat{\calK}(t+h,\cdot)\hat{u}_0,\varphi\rangle - \langle \hat{\calK}(t,\cdot)\hat{u}_0,\varphi \rangle\big) \\
+    &=&\frac{1}{h}\big(\langle\hat{u}_0,\hat{\calK}(t+h,\cdot)\varphi\rangle - \langle\hat{u}_0,\hat{\calK}(t,\cdot)\varphi \rangle\big) \\
+    &=& \Big\langle\hat{u}_0,\frac{\hat{\calK}(t+h,\cdot)-\hat{\calK}(t,\cdot)}{h}\varphi \Big\rangle \\
+    &\underset{h \to 0}{\longrightarrow}& \Big\langle \hat{u}_0, \frac{-\nu\|\xi\|^2}{1+\alpha\|\xi\|^2}\hat{\calK}(t,\cdot)\varphi\Big\rangle
+\end{eqnarray*}
+où on utilise la continuité séquentielle sous le crochet. Finalement, on a montré que 
+\begin{equation*}
+    \forall \varphi \in \scrS(\bbR^d), \ \lim_{h \to 0} \Big\langle\frac{\hat{u}(t+h)-\hat{u}(t)}{h},\varphi \Big\rangle = \Big\langle \frac{-\nu\|\xi\|^2}{1+\alpha\|\xi\|^2}\hat{u}(t), \varphi\Big\rangle
+\end{equation*}
+donc 
+\begin{equation*}
+    \hat{u}'(t) = \frac{-\nu\|\xi\|^2}{1+\alpha\|\xi\|^2}\hat{u}(t) \in \scrS'(\bbR^d)
+\end{equation*}
+Pour montrer que $\hat{u}'$ est continue, on doit montrer que pour tout $\varphi \in \scrS(\bbR^d)$, l'application $t \mapsto \langle \hat{u}'(t),\varphi\rangle$ est continue. Soient $\varphi \in \scrS(\bbR^d)$ et $(t_n)_{n \in \bbN} \subset \bbR_+$ telle que $t_n \underset{n \to+\infty}{\longrightarrow} t$. On a 
+\begin{eqnarray*}
+    \langle \hat{u}'(t_n),\varphi\rangle &=& \Big\langle \frac{-\nu\|\xi\|^2}{1+\alpha\|\xi\|^2}\hat{u}(t_n), \varphi\Big\rangle \\
+    &=& \Big\langle \hat{u}(t_n), \frac{-\nu\|\xi\|^2}{1+\alpha\|\xi\|^2}\varphi\Big\rangle \\
+    &\underset{n \to +\infty}{\longrightarrow}& \Big\langle \hat{u}(t), \frac{-\nu\|\xi\|^2}{1+\alpha\|\xi\|^2}\varphi\Big\rangle \\
+    &=& \Big\langle \frac{-\nu\|\xi\|^2}{1+\alpha\|\xi\|^2}\hat{u}(t), \varphi\Big\rangle \\
+    &=& \langle \hat{u}'(t),\varphi \rangle
+\end{eqnarray*}
+On utilise encore une fois la continuité sous le crochet et le fait que $\hat{u} \in \scrC^0(\bbR_+,\scrS'(\bbR^d))$ car dérivable. Et on vient donc de montrer que $\hat{u} \in \scrC^1(\bbR_+,\scrS'(\bbR^d))$.
+\\
+On vérifie aisément que 
+\begin{equation*}
+    \hat{u}(0)=\hat{u}_0
+\end{equation*}
+et que $\hat{u}(t)$ est solution de \eqref{pb_RS_Fourier} pour tout $t \in \bbR_+$. En utilisant le fait que $\calF$ est un isomorphisme de $\scrS'(\bbR^d)$ sur lui même et ses propriétés sur le laplacien on en déduit que \eqref{sol_Fourier} est solution de \eqref{pb_RS4} pour tout $t \in \bbR_+$. Enfin, en utilisant la formule d'inversion de Fourier et le lien entre convolution et transformée de Fourier, on peut réécrire l'égalité suivante au sens des distributions
+\begin{eqnarray}\label{sol_S'}
+    \forall (t,x) \in \bbR_+\times \bbR^d, \ u(t,x) = \frac{1}{(2\pi)^{d/2}}K(t,x)*u_0(x)
+\end{eqnarray}
+
+\subsubsection{Donnée initiale dans \texorpdfstring{$H^s(\bbR^d)$}{Hs(Rd)}}
+On considère maintenant $u_0 \in H^s(\bbR^d)$. Comme $H^s(\bbR^d) \subset \scrS'(\bbR^d)$, on peut utiliser les résultats de la partie précédente qui nous assure de l'existence d'une solution dans $\scrS'(\bbR^d)$. Il suffit donc de montrer que la solution définie par \eqref{sol_S'} est dans $\scrC^1(\bbR_+,H^s(\bbR^d))$ ce qui nous donnera l'unicité de la solution dans $H^s(\bbR^d)$. 
+\\
+Comme $\calF$ réalise une isométrie entre $H^s(\bbR^d)$ et $L^2_s(\bbR^d)$, on a
+\begin{eqnarray*}
+    u \in \scrC^1(\bbR_+,H^s(\bbR^d)) &\iff& \hat{u} \in \scrC^1(\bbR_+, L^2_s(\bbR^d))
+\end{eqnarray*}
+Comme $u_0 \in H^s(\bbR^d)$, $\hat{u}_0 \in L_s^2(\bbR^d)$ donc pour presque tout $\xi \in \bbR^d$, $t \mapsto \hat{u}(t,\xi)$ est continue. On a également
+\begin{equation*}
+    \sup_{t \in \bbR_+}|\hat{u}(t,\cdot)| \leq |\hat{\calK}(t,\cdot)||\hat{u}_0| \overset{\eqref{ineq_K}}{\leq} |\hat{u}_0| \in L^2_s(\bbR^d)
+\end{equation*}
+Enfin, 
+\begin{equation*}
+    \sup_{t \in \bbR_+} |u'(t)| \leq \frac{\nu\|\xi\|^2}{1+\alpha\|\xi\|^2}|\hat{\calK}(t,\cdot)||\hat{u}_0| \overset{\eqref{ineq_K}}{\leq} \frac{\nu}{\alpha}|\hat{u}_0| \in L^2_s(\bbR^d)
+\end{equation*}
+Ce qui nous assure par théorème de convergence dominée que $\hat{u} \in \scrC^1(\bbR_+,L^2_s(\bbR^d))$. Donc la fonction \eqref{sol_S'} avec $u_0 \in H^s(\bbR^d)$ est solution dans $H^s(\bbR^d)$.
+
+\subsubsection{Quelques propriétés de la solution}
+\subparagraph{Régularité en temps de la solution.} On a montré que $u \in \scrC^1(\bbR_+,H^s(\bbR^d))$. Mais on peut montrer que $u \in \scrC^{\infty}(\bbR_+,H^s(\bbR^d))$. Soit $k \in \bbN^*$. Comme $\calF$ réalise une isométrie entre $H^s(\bbR^d)$ et $L^2_s(\bbR^d)$, on a 
+\begin{eqnarray*}
+    u \in \scrC^k(\bbR_+,H^s(\bbR^d)) &\iff& \hat{u} \in \scrC^k(\bbR_+,L^2_s(\bbR^d))
+\end{eqnarray*}
+Soit $(t_n)_{n \in \bbN} \subset \bbR_+$ telle que $t_n \underset{n \to +\infty}{\longrightarrow} t$. On veut montrer que 
+\begin{equation*}
+    \|\hat{u}^{(k)}(t_n)-\hat{u}^{(k)}(t)\|_{L^2_s} \underset{n \to +\infty}{\longrightarrow} 0
+\end{equation*}
+On a 
+\begin{equation*}
+    \hat{u}^{(k)}(t) = \bigg(\frac{-\nu\|\xi\|^2}{1+\alpha\|\xi\|^2}\bigg)^k \hat{\calK}(t,\xi)\hat{u}_0(\xi)
+\end{equation*}
+et $t \mapsto \hat{\calK}(t,\xi)$ est $\scrC^{\infty}$ pour presque tout $\xi \in \bbR^d$. On a 
+\begin{equation*}
+    \|\hat{u}^{(k)}(t_n)-\hat{u}^{(k)}(t)\|_{L^2_s}^2 = \int_{\bbR^d}\underbrace{\bigg(\frac{-\nu\|\xi\|^2}{1+\alpha\|\xi\|^2}\bigg)^{2k}|\hat{u}_0(\xi)|^2|\hat{\calK}(t_n,\xi)-\hat{\calK}(t,\xi)|^2(1+\|\xi\|^2)^s}_{=:g_n(\xi)}\mathrm{d}\xi
+\end{equation*}
+Par continuité de $\hat{\calK}(\cdot,\xi)$, on a pour presque tout $\xi \in \bbR^d$, $g_n(\xi) \underset{n \to +\infty}{\longrightarrow}0$. De plus, en utilisant \eqref{ineq_K}, il vient
+\begin{equation*}
+    |g_n(\xi)| \leq 4\Big(\frac{\nu}{\alpha}\Big)^{2k}|\hat{u}_0(\xi)|^2 (1+\|\xi\|^2)^s
+\end{equation*}
+et $4\Big(\dfrac{\nu}{\alpha}\Big)^{2k}|\hat{u}_0|^2 (1+\|\xi\|^2)^s \in L^1(\bbR^d)$. On peut donc appliquer le théorème de convergence dominée et par conséquent
+\begin{equation*}
+    \|u^{(k)}(t_n)-u^{(k)}(t)\|_{H^s} \underset{n \to +\infty}{\longrightarrow} 0
+\end{equation*}
+donc $u \in \scrC^k(\bbR_+,H^s(\bbR^d))$ pour tout $k \in \bbN$, donc $u \in \scrC^{\infty}(\bbR_+,H^s(\bbR^d))$.
+
+\subparagraph{Comportement de la solution et comparaison avec l'équation de la chaleur.} On rappelle l'équation de la chaleur
+\begin{equation*}
+    \begin{cases}
+        \partial_tv(t,x)-\nu\Delta v(t,x)=0 & (t,x) \in \bbR_+ \times \bbR^d \\
+        v(0,x) = v_0(x) & x \in \bbR^d
+    \end{cases}
+\end{equation*}
+dont la solution est donnée par 
+\begin{equation*}
+    \forall (t,x) \in \bbR_+ \times \bbR^d, \ v(t,x) = \calF^{-1}\big(\exp(-\nu t\|\xi\|^2\big)\hat{v}_0(\xi)\big)(x)
+\end{equation*}
+Dans un premier temps, on raisonne à $t \in \bbR_+$ fixé.
+\begin{itemize}
+    \item A hautes fréquences, on remarque qu'on a l'équivalent suivant
+    \begin{eqnarray*}
+        \hat{\calK}(t,\xi) &\underset{\|\xi\|\to+\infty}{\sim}& \exp\Big(-\frac{\nu}{\alpha}t\Big)
+    \end{eqnarray*}
+    Donc le noyau $\hat{\calK}$ agit comme une multiplication par un scalaire, et la solution $\hat{u}$ se comporte comme la donnée initiale
+    \begin{eqnarray*}
+        \hat{u}(t,\xi) &\underset{\|\xi\|\to+\infty}{\sim}& \exp\Big(-\frac{\nu}{\alpha}t\Big)\hat{u}_0(\xi)
+    \end{eqnarray*}
+    \item A basses fréquences, on peut effectuer le développement limité suivant
+    \begin{eqnarray*}
+        \frac{-\nu\|\xi\|^2}{1+\alpha\|\xi\|^2} &=& -\nu\|\xi\|^2\frac{1}{1+\alpha \|\xi\|^2} \\ 
+        &=& -\nu\|\xi\|^2\big(1-\alpha\|\xi\|^2+o(\|\xi\|^4)\big) \\
+        &=& -\nu\|\xi\|^2+o(\|\xi\|^4)
+    \end{eqnarray*}
+    On en déduit
+    \begin{eqnarray*}
+        \hat{\calK}(t,\xi) &\underset{\|\xi\|\to 0}{\sim}& \exp(-\nu\|\xi\|^2t)
+    \end{eqnarray*}
+    Donc on a 
+    \begin{eqnarray*}
+        \hat{u}(t,\xi) &\underset{\|\xi\|\to 0}{\sim}& \exp(-\nu\|\xi\|^2t)\hat{u}_0(\xi)
+    \end{eqnarray*}
+    On remarque immédiatement la similitude avec la solution de l'équation de la chaleur. On en conclut qu'à basses fréquences, la solution de l'équation de Rayleigh-Stokes se comporte exactement comme celle de l'équation de la chaleur. Physiquement, cela se traduit par une diffusion standard du fluide dans l'espace.
+\end{itemize}
+Maintenant, si on regarde quand $t \to +\infty$ alors à hautes fréquences, comme on a l'équivalent
+\begin{eqnarray*}
+    \hat{\calK}(t,\xi) &\underset{\|\xi\|\to+\infty}{\sim}& \exp\Big(-\frac{\nu}{\alpha}t\Big)
+\end{eqnarray*}
+le noyau $\hat{\calK}$ va décroître de manière exponentielle. Tandis qu'à basses fréquences, 
+\begin{eqnarray*}
+    \hat{\calK}(t,\xi) &\underset{\|\xi\|\to 0}{\sim}& \exp(-\nu\|\xi\|^2t)
+\end{eqnarray*}
+donc le noyau $\hat{\calK}$ décroît plus lentement. La dynamique de la solution est donc dominée par les basses fréquences. On en déduit l'équivalent de la solution en temps long
+\begin{eqnarray*}
+    \hat{u}(t,\xi) &\underset{t \to +\infty}{\sim}& \exp(-\nu\|\xi\|^2t)\hat{u}_0(\xi)
+\end{eqnarray*}
+Donc en temps long, la solution de l'équation de Rayleigh-Stokes se comporte comme la solution de l'équation de la chaleur, donc à nouveau une diffusion standard du fluide dans l'espace. 
+
+\subparagraph{Une autre expression de la solution.}
+Pour terminer cette section, on va donner une nouvelle expression de la solution \eqref{sol_S'}. Commençons d'abord par réécrire le noyau
+\begin{eqnarray*}
+    \hat{\calK}(t,\xi) &=& \exp\bigg(\frac{-\nu\|\xi\|^2}{1+\alpha\|\xi\|^2}t\bigg) \\
+    &=& \exp\bigg(\frac{-\nu\alpha\|\xi\|^2}{\alpha(1+\alpha\|\xi\|^2)}t\bigg)\\
+    &=& \exp\bigg(-\frac{\nu t}{\alpha}\frac{\alpha \|\xi\|^2}{1+\alpha\|\xi\|^2}\bigg) \\
+    &=& \exp\bigg(-\frac{\nu t}{\alpha}\bigg(1-\frac{1}{1+\alpha\|\xi\|^2}\bigg)\bigg) \\
+    &=& \exp\Big(-\frac{\nu}{\alpha}t\Big)\exp\bigg(\frac{\nu t}{\alpha(1+\alpha \|\xi\|^2)}\bigg) \\
+    &=& \exp\Big(-\frac{\nu}{\alpha}t\Big)\bigg(1+\exp\bigg(\frac{\nu t}{\alpha(1+\alpha \|\xi\|^2)}\bigg)-1\bigg) \\
+    &=& \exp\Big(-\frac{\nu}{\alpha}t\Big) + \underbrace{\exp\Big(-\frac{\nu}{\alpha}t\Big)\bigg(\exp\bigg(\frac{\nu t}{\alpha(1+\alpha \|\xi\|^2)}\bigg)-1\bigg)}_{=: \ \hat{\calR}(t,\xi)}
+\end{eqnarray*}
+On en déduit en appliquant $\calF^{-1}$
+\begin{equation*}
+    \calK(t,x) = (2\pi)^{d/2}\exp\Big(-\frac{\nu}{\alpha}t\Big)\delta_0 + \calR(t,x)
+\end{equation*}
+où $\delta_0$ désigne la dirac en $0$ et
+\begin{equation*}
+    \calR(t,x) = \exp\Big(-\frac{\nu}{\alpha}t\Big)\calF^{-1}\bigg(\exp\bigg(\frac{\nu t}{\alpha(1+\alpha \|\xi\|^2)}\bigg)-1\bigg)(x)
+\end{equation*}
+On injecte ensuite cette nouvelle expression du noyau dans celle de $u$
+\begin{eqnarray*}
+    u(t,x) &=& \frac{1}{(2\pi)^{d/2}}K(t,x)*u_0(x) \\
+    &=& \frac{1}{(2\pi)^{d/2}}\bigg((2\pi)^{d/2}\exp\Big(-\frac{\nu}{\alpha}t\Big)\delta_0 + \calR(t,x)\bigg)*u_0(x) \\
+    &=& \exp\Big(-\frac{\nu}{\alpha}t\Big)\delta_0*u_0(x) + \frac{1}{(2\pi)^{d/2}}\calR(t,x)*u_0(x) \\
+    &=& \exp\Big(-\frac{\nu}{\alpha}t\Big)u_0(x) + \frac{1}{(2\pi)^{d/2}}\calR(t,x)*u_0(x)
+\end{eqnarray*}
+On peut développer en série entière le terme $\hat{\calR}(t,\cdot)$ car l'exponentielle est développable en série entière partout, ce qui nous donne
+\begin{eqnarray*}
+    \exp\bigg(\frac{\nu t}{\alpha(1+\alpha \|\xi\|^2)}\bigg) &=& \sum_{k=0}^{+\infty} \frac{1}{k!}\Big(\frac{\nu t}{\alpha}\Big)^k\frac{1}{(1+\alpha\|\xi\|^2)^k}
+\end{eqnarray*}
+donc
+\begin{eqnarray*}
+    \exp\bigg(\frac{\nu t}{\alpha(1+\alpha \|\xi\|^2)}\bigg)-1 &=& \sum_{k=1}^{+\infty} \frac{1}{k!}\Big(\frac{\nu t}{\alpha}\Big)^k\frac{1}{(1+\alpha\|\xi\|^2)^k}
+\end{eqnarray*}
+Par linéarité et continuité de $\calF$, on a donc
+\begin{eqnarray*}
+    \calR(t,x) &=& \exp\Big(-\frac{\nu}{\alpha}t\Big)\sum_{k=1}^{+\infty} \frac{1}{k!}\Big(\frac{\nu t}{\alpha}\Big)^k\calF^{-1}\bigg(\frac{1}{(1+\alpha\|\xi\|^2)^k}\bigg)(x)
+\end{eqnarray*}
+On pose 
+\begin{eqnarray*}
+    \calD(u)(t,x) &=& \frac{1}{(2\pi)^{d/2}}\exp\Big(-\frac{\nu}{\alpha}t\Big)\sum_{k=1}^{+\infty} \frac{1}{k!}\Big(\frac{\nu t}{\alpha}\Big)^k\bigg(\calF^{-1}\bigg(\frac{1}{(1+\alpha\|\xi\|^2)^k}\bigg)*u_0\bigg)(x)
+\end{eqnarray*}
+et on obtient l'expression
+\begin{eqnarray*}
+    u(t,x) &=& \exp\Big(-\frac{\nu}{\alpha}t\Big)u_0(x) + \calD(u)(t,x)
+\end{eqnarray*}

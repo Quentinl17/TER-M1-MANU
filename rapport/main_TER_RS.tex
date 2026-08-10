@@ -1,0 +1,61 @@
+\documentclass[12pt, a4paper]{article}
+
+
+\input{mise_en_page/header.tex}
+
+
+\begin{document}
+
+% --- PAGE DE GARDE --- %
+\input{mise_en_page/page_de_garde}
+\newpage
+
+
+% --- SOMMAIRE --- %
+\tableofcontents
+\newpage
+
+
+% --- INTRODUCTION --- %
+\input{mise_en_page/introduction/intro.tex}
+%\newpage
+
+
+% --- OBJECTIFS --- %
+\input{mise_en_page/objectifs/objectifs.tex}
+\newpage
+
+
+% --- CORPS DU TEXTE --- %
+% ===== Le modèle et sa dérivation ===== %
+\input{src/le_modele}
+
+% ===== Analyse mathématique ===== %
+% ----- Approche variationnelle ----- %
+\input{src/analyse_math_2}
+
+% ----- Analyse de Fourier ----- %
+\input{src/analyse_math_1}
+
+% ===== Approximation numérique préliminaire ===== %
+\input{src/analyse_numerique_DF}
+
+% ===== Approximation par la méthode de DG ===== %
+\input{src/analyse_numerique_DG}
+
+\newpage
+
+% --- CONCLUSION --- %
+\input{mise_en_page/conclusion/conclusion.tex}
+\newpage
+
+
+% --- ANNEXES --- %
+\input{annexes/annexes.tex}
+\newpage
+
+
+% --- BIBLIOGRAPHIES --- %
+\input{mise_en_page/bibliographie/biblio.tex}
+
+\end{document}

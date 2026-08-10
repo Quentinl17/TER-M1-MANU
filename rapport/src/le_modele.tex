@@ -1,0 +1,301 @@
+% =================================================================================
+\section{Le modèle}
+% =================================================================================
+
+\subsection{Le premier problème de Stokes}
+On se place dans un repère orthonormé $(e_1,e_2,e_3)$ et on notera $(x,y,z)$ les composantes d'un point $X$ dans cette base. \`A l'instant initial $t=0$, on considère une plaque immobile d'équation $y=0$ et infinie dans les directions $e_1$ et $e_3$. Dans le demi-espace $y>0$ delimité par cette plaque, on considère un fluide visqueux au repos que l'on suppose incompressible, homogène et ne subissant aucune force extérieure. La plaque est ensuite mise instantanément en mouvement à vitesse constante dans la direction $e_1$. Le problème de Stokes consiste à étudier la vitesse du fluide dans cette situation. 
+\\
+\begin{figure}[!h]
+    \centering
+    \tdplotsetmaincoords{70}{120}
+    \begin{tikzpicture}[tdplot_main_coords, scale=1.4]
+        % ----- PLAQUE (plan y=0, dans le plan xz) -----
+        \fill[blue!15, opacity=0.7] (-2.5,-2.5,0) -- (2.5,-2.5,0) -- (2.5,2.5,0) -- (-2.5,2.5,0) -- cycle;
+        \draw[gray!60] (-2.5,-2.5,0) -- (2.5,-2.5,0) -- (2.5,2.5,0) -- (-2.5,2.5,0) -- cycle;
+        % Label plaque
+        \node[blue!60!black] at (2.8, 1.5, 0) {plaque $y=0$};
+
+        % ----- REPÈRE -----
+        % Axe x (e1)
+        \draw[->, thick] (0,0,0) -- (2.5,0,0) node[anchor=north] {$x$};
+        \draw[->, red] (0,0,0) -- (1,0,0) node[above left] {$e_1$};
+        % Axe y (e2) vers le haut
+        \draw[->, thick] (0,0,0) -- (0,0,2.5) node[anchor=south] {$y$};
+        \draw[->, green] (0,0,0) -- (0,0,1) node[right] {$e_2$};
+        % Axe z (e3)
+        \draw[->, thick] (0,0,0) -- (0,2.5,0) node[anchor=west] {$z$};
+        \draw[->, blue] (0,0,0) -- (0,1,0) node[below right] {$e_3$};
+        % Origine
+        \filldraw[black] (0,0,0) circle (1.5pt) node[below] {$O$};
+
+        % ----- FLUIDE (demi-espace y>0) -----
+        \fill[cyan!10, opacity=0.3]
+            (-2.5,-2.5,0) -- (2.5,-2.5,0) -- (2.5,-2.5,2.2)
+            -- (-2.5,-2.5,2.2) -- cycle;
+        \fill[cyan!10, opacity=0.3]
+            (2.5,-2.5,0) -- (2.5,2.5,0) -- (2.5,2.5,2.2)
+            -- (2.5,-2.5,2.2) -- cycle;
+        \fill[cyan!10, opacity=0.3]
+            (-2.5,-2.5,2.2) -- (2.5,-2.5,2.2) -- (2.5,2.5,2.2)
+            -- (-2.5,2.5,2.2) -- cycle;
+        \fill[cyan!10, opacity=0.3]
+            (2.5,2.5,0) -- (-2.5,2.5,0) -- (-2.5,2.5,2.2)
+            -- (2.5,2.5,2.2) -- cycle;
+        \node[cyan!50!black] at (2.2, -1.5, 1.8) {fluide $y>0$};
+
+        % ----- FLÈCHE DE DÉPLACEMENT DE LA PLAQUE -----
+        \draw[->, line width=2pt, red!80!black]
+            (-0.5, -1.8, 0) -- (1.2, -1.8, 0)
+            node[midway, above, sloped] {\small $V e_1$};
+
+        % ----- POINT X -----
+        \filldraw[black] (-0.4, 1.0, 1.2) circle (1.5pt);
+        \node[above right] at (-0.4, 1.0, 1.2) {$X = (x,y,z)$};
+    \end{tikzpicture}
+    \caption{Configuration du premier problème de Stokes}
+    \label{fig:pbmStokes}
+\end{figure}
+\\
+On considère donc la vitesse du fluide
+\begin{eqnarray*}
+    \bfm{u} : \bbR^3 \times \bbR_+ &\longrightarrow& \bbR^3 \\
+    (X,t) &\longmapsto& \big(u_1(X,t), u_2(X,t), u_3(X,t)\big)
+\end{eqnarray*}
+Le contexte du premier problème de Stokes nous amène à quelques simplifications. La plaque étant infinie dans les directions $e_1$ et $e_3$, la vitesse du fluide ne dépendra pas de $x$ et $z$, on notera donc plus simplement
+\begin{equation*}
+    \bfm{u} (X,t) = \bfm{u} (y,t)
+\end{equation*}
+La plaque étant mise en mouvement uniquement dans la direction $e_1$, on obtient un écoulement unidirectionnel. On pose alors
+\begin{equation*}
+    \bfm{u} (y,t) = \big(u_1(y,t),0,0\big)
+\end{equation*}
+De plus, on supposera $\bfm{u}$ suffisamment régulière afin de simplifier les calculs. On utilise d'abord l'équation de conservation de la masse
+\begin{equation}\label{consevermationmasse1}
+    \frac{D\rho}{Dt} + \rho \Div(\bfm{u}) = 0
+\end{equation}
+où $\rho(X,t)$ est la densité du fluide et $\dfrac{D}{Dt}$ est la dérivée particulaire définie par
+\begin{equation*}
+    \frac{D}{Dt} := \partial_t  +  \bfm{u} \cdot \nabla 
+\end{equation*}
+Comme le fluide est incompressible et homogène $\dfrac{D\rho}{Dt} = 0$, donc 
+$\rho$ est une fonction constante que l'on notera dans la suite $\rho >0$ et \eqref{consevermationmasse1} devient $\Div(\bfm{u})=0$. Puis, les équations du mouvement du milieu continu nous donne 
+\begin{equation}\label{PFD1}
+    \rho \frac{D\bfm{u}}{Dt} = \Div(\sigma) + \rho \bfm{f}
+\end{equation}
+où $\sigma$ est le tenseur des contraintes et le terme $\rho\bfm{f}$ représente les forces massiques de densité volumique. Les hypothèses du problème de Stokes nous donnent la simplification $\bfm{f}=0$ et 
+\begin{equation*}
+    \frac{D\bfm{u}}{Dt} = \partial_t \bfm{u} + (\bfm{u} \cdot \nabla) \bfm{u} = \partial_t u_1 + \begin{pmatrix}
+        0 & \partial_yu_1 & 0 \\
+        0 & 0 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix}\begin{pmatrix}
+        u_1 \\ 0 \\ 0
+    \end{pmatrix} = \partial_tu_1
+\end{equation*}
+C'est l'équation \eqref{PFD1} qui va nous donner l'équation de Rayleigh-Stokes, il nous faut donc déterminer $\sigma$. Pour un fluide de second grade, le tenseur des contraintes est donné par le théorème de Rivlin-Ericksen 
+\begin{equation*}
+    \sigma := -pI + \mu A_1 + \alpha_1 A_2 + \alpha_2 A_1^2
+\end{equation*}
+où
+\begin{itemize}
+    \item $pI$ est la contrainte isotropique avec $p$ la pression,
+    \item $A_1 := \nabla \bfm{u} + \nabla^t \bfm{u}$,
+    \item $A_2 := \dfrac{D}{Dt}A_1 + A_1\nabla \bfm{u} + \nabla^t\bfm{u} A_1$,
+    \item $\mu >0$ est la viscosité du fluide,
+    \item $\alpha_1$ et $\alpha_2$ sont des paramètres thermodynamiques qui doivent vérifier 
+    \begin{eqnarray*}
+        \alpha_1 \geq 0 \ \ \ \ \ \text{ et } \ \ \ \ \ \alpha_1 + \alpha_2 = 0
+    \end{eqnarray*}
+    pour que le modèle soit physiquement admissible.
+\end{itemize}
+
+\begin{remark}
+    Concernant le \og théorème de Rivlin-Ericksen \fg{} cité, nous faisons allusions ici à l'article \cite{Rivlin1955} dans lequel  Rivlin et Ericksen établissent, pour un fluide de grade $n$, le lien (section $37$) entre le tenseur des contraintes $\sigma$ et les tenseurs dit de Rivlin-Ericksen $A_1, A_2, \dots, A_n$, qui sont définis par récurrence par 
+    \begin{eqnarray*}
+        A_1 &=& \nabla \bfm{u} + \nabla^t \bfm{u} \\
+        \forall k \in \bbN, \ A_{k+1} &=& \frac{D}{Dt}A_k + A_k \nabla \bfm{u} + \nabla^t\bfm{u}A_k
+    \end{eqnarray*}
+    Le tenseur des contraintes $\sigma$ est une fonction tensorielle isotrope de $A_1,\dots, A_n$, c'est-à-dire que
+    \begin{equation*}
+        \sigma(A_1,\dots,A_n) = \varphi_0 I + \varphi_1 A_1 + \varphi_2A_2 + \varphi_3A_1^2 + \cdots
+    \end{equation*}
+    où les $\varphi_i$ sont des fonctions scalaires, et que pour tout $Q \in O_3(\bbR)$ on a 
+    \begin{equation*}
+        \sigma(QA_1Q^t, \dots, QA_nQ^t) = Q \sigma (A_1,\dots, A_n) Q^t
+    \end{equation*}
+    Autrement dit, si on fait une subir une rotation au fluide, le tenseur des contraintes subi aussi cette rotation. Donc, dans notre cas
+    \begin{equation*}
+        \sigma(A_1,A_2) = \varphi_0 I + \varphi_1 A_1 + \varphi_2A_2 + \varphi_3A_1^2
+    \end{equation*}
+    Puis, dans la section $38$, ils donnent les formes explicites des coefficients $\varphi_i$, ce sont des fonctions des invariants scalaires des tenseurs $A_1,\dots, A_n$. Dans notre cas, ils peuvent être associés à des paramètres physiques liés au fluide étudié : $\mu$, $\alpha_1$ et $\alpha_2$. \\
+\end{remark}
+
+\begin{remark}
+    Si on suppose $\alpha_1<0$, il est possible de montrer qu'un écoulement comme le cisaillement simple entre deux plaques parallèles est instable, et même que pour certaines distances entre les deux plaques, l'écoulement n'existe pas. Pour plus de détails sur les rôles de $\alpha_1$ et $\alpha_2$ nous renvoyons à la référence \cite[p.~211]{thermo_fluid_2}.
+\end{remark}
+
+On obtient 
+\begin{eqnarray*}
+    A_1 = \begin{pmatrix}
+        0 & \partial_yu_1 & 0 \\
+        \partial_yu_1 & 0 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix} \ \ \ &\text{ et }& \ \ \ A_1^2 = \begin{pmatrix}
+        (\partial_yu_1)^2 & 0 & 0 \\
+        0 & (\partial_y u_1)^2 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix}
+\end{eqnarray*}
+En écrivant, $\dfrac{D}{Dt}A_1$ dans la définition de $A_2$, on entend appliquer l'opérateur $\dfrac{D}{Dt}$ à chaque composante de $A_1$, d'où
+\begin{eqnarray*}
+    A_2 &=& \dfrac{D}{Dt}A_1 + A_1\nabla \bfm{u} + \nabla^t\bfm{u} A_1 \\
+    &=& \begin{pmatrix}
+        0 & \partial_{ty} u_1 & 0 \\
+        \partial_{ty}u_1 & 0 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix} + \begin{pmatrix}
+        0 & 0 & 0 \\
+        0 & (\partial_yu_1)^2 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix} + \begin{pmatrix}
+        0 & 0 & 0 \\
+        0 & (\partial_yu_1)^2 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix} \\
+    &=& \begin{pmatrix}
+        0 & \partial_{ty}u_1 & 0 \\
+        \partial_{ty} u_1 & 2(\partial_yu_1)^2 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix}
+\end{eqnarray*}
+Finalement, le tenseur des contraintes est
+\begin{equation*}
+    \sigma = \begin{pmatrix}
+        -p+\alpha_2(\partial_yu_1)^2 & \mu\partial_yu_1 + \alpha_1 \partial_{ty}u_1 & 0 \\
+        \mu \partial_yu_1+\alpha_1\partial_{ty} u_1 & -p+(2\alpha_1+\alpha_2)(\partial_yu_1)^2 & 0 \\
+        0 & 0 & -p
+    \end{pmatrix}
+\end{equation*}
+On injecte dans \eqref{PFD1} et on obtient
+\begin{equation*}
+    \left\{\begin{array}{rcl}
+        \rho\partial_tu_1 & = & -\partial_xp + \alpha_2\partial_x(\partial_yu_1)^2 + \mu \partial_{yy}u_1 + \alpha_1 \partial_{yty}u_1  \\
+        0 & = & \mu \partial_{xy}u_1 + \alpha_1\partial_{xty}u_1 - \partial_yp+(2\alpha_1+\alpha_2)\partial_y(\partial_yu_1)^2 \\
+        0 & = & - \partial_zp
+    \end{array}\right.
+\end{equation*}
+on utilise l'indépendance de $u_1$ en $x$ et $z$ pour simplifier le système
+\begin{equation*}
+    \left\{\begin{array}{rcl}
+        \rho\partial_tu_1 & = & -\partial_xp + \mu \partial_{yy}u_1 + \alpha_1 \partial_{yty}u_1  \\
+        0 & = & - \partial_yp+2(2\alpha_1+\alpha_2)\partial_yu_1\partial_{yy}u_1 \\
+        0 & = & - \partial_zp
+    \end{array}\right.
+\end{equation*}
+L'invariance par translation dans les directions $e_1$ et $e_3$ implique que la pression ne dépend pas de $x$ et $z$, donc $\partial_xp=0$. En réorganisant les termes de la première équation du système, on obtient finalement l'équation de Rayleigh-Stokes homogène en une dimension
+\begin{equation*}
+    \partial_t u_1 - \nu \partial_{yy}u_1 - \alpha \partial_{tyy}u_1=0
+\end{equation*}
+où $\nu := \dfrac{\mu}{\rho}$ et $\alpha := \dfrac{\alpha_1}{\rho}$.
+
+\subsection{Dérivation de l'équation de Rayleigh-Stokes scalaire multidimensionnelle}\label{RS_scalaire}
+Dans cette section, l'objectif est de généraliser l'équation de Rayleigh-Stokes scalaire en conservant un cadre $3$D spatial. Le cadre physique reste similaire, on considère l'écoulement unidirectionnel (dans la direction $e_1$ comme sur la figure \ref{fig:pbmStokes}) d'un fluide de grade $2$, incompressible et homogène de densité $\rho>0$. On note $\bfm{u} : \bbR^3 \times \bbR_+ \rightarrow \bbR^3$ la vitesse du fluide que l'on supposera suffisamment régulière. Les équations du mouvement du milieu continu nous donne 
+\begin{equation}\label{PFD_1}
+    \rho \frac{D\bfm{u}}{Dt} = \Div(\sigma) + \rho \bfm{f}
+\end{equation}
+où $\sigma$ est le tenseur des contraintes et le terme $\rho \bfm{f}$ représente les forces massiques de densité volumique que l'on supposera nulles. Pour un fluide de second grade, le tenseur des contraintes est donné par le théorème de Rivlin-Ericksen 
+\begin{equation*}
+    \sigma := -pI + \mu A_1 + \alpha_1 A_2 + \alpha_2 A_1^2
+\end{equation*}
+où on utilise les mêmes notations qu'à la section précédente. On a donc 
+\begin{eqnarray*}
+    \Div(\sigma) = -\nabla p + \mu \Delta \bfm{u} + \alpha_1\Div(A_2) + \alpha_2\Div(A_1^2)
+\end{eqnarray*}
+On injecte cette expression dans \eqref{PFD_1} et on obtient les équations de Navier-Stokes pour un fluide incompressible, homogène de grade $2$
+\begin{equation}\label{NS_gen}
+    \left\{\begin{array}{l}
+        \rho\big(\partial_t\bfm{u} + (\bfm{u} \cdot\nabla)\bfm{u}\big) = -\nabla p + \mu \Delta \bfm{u} + \alpha_1 \Div(A_2) + \alpha_2 \Div(A_1^2)  \\
+        \Div(\bfm{u}) = 0 
+    \end{array}\right.
+\end{equation}
+L'écoulement étant unidirectionnel dans la direction $e_1$, notre vitesse $\bfm{u}$ est de la forme
+\begin{equation*}
+    \bfm{u}(X,t) = (u_1(X,t),0,0)
+\end{equation*}
+On utilise l'incompressibilité qui donne
+\begin{eqnarray*}
+    \Div(\bfm{u}) = 0 &\Longrightarrow& \partial_xu_1(x,y,z,t) = 0
+\end{eqnarray*}
+donc $u_1$ ne dépend pas de la variable $x$. Puis on linéarise l'équation vectorielle de \eqref{NS_gen}, ainsi
+\begin{eqnarray*}
+    A_2 \approx \partial_t A_1 \ \ \ \text{ et } \ \ \ A_1^2 \approx 0
+\end{eqnarray*}
+donc 
+\begin{align*}
+    \Div(A_1) &= \nabla(\Div(\bfm{u})) + \Delta \bfm{u} &\text{ et }&& \Div(\partial_tA_1) &=\nabla\big(\partial_t(\Div(\bfm{u}))\big) + \Delta\big(\partial_t \bfm{u}\big)
+\end{align*}
+ensuite, en utilisant l'incompressibilité, on obtient 
+\begin{eqnarray*}
+    \Div(A_1) = \Delta \bfm{u} \ \ \ \text{ et } \ \ \ \Div(A_2) = \Delta\big(\partial_t \bfm{u}\big)
+\end{eqnarray*}
+enfin,
+\begin{equation*}
+    \Div(pI) = \nabla p
+\end{equation*}
+finalement,  
+\begin{equation*}
+    \Div(\sigma) = -\nabla p +\mu \Delta \bfm{u} + \alpha_1 \Delta\big(\partial_t \bfm{u} \big)
+\end{equation*}
+Alors l'équation vectorielle de \eqref{NS_gen} devient
+\begin{eqnarray*}
+    \rho \partial_t \bfm{u} = -\nabla p + \mu \Delta \bfm{u} + \alpha_1 \Delta\big(\partial_t\bfm{u}\big)
+    &\iff& \left\{\begin{array}{l}
+        \rho \partial_t u_1 = \partial_xp + \mu\Delta u_1 + \alpha_1 \Delta \big(\partial_t u_1\big) \\
+        0 = -\partial_y p \\
+        0 = - \partial_z p
+    \end{array}\right.
+\end{eqnarray*}
+Ce système nous donne $\partial_y p = \partial_z p =0$, donc la pression $p$ dépend uniquement de la variable d'espace $x$. Il nous reste l'équation scalaire
+\begin{equation*}
+    \rho \partial_t u_1(y,z,t) = \partial_xp(x,t) + \mu\Delta u_1(y,z,t) + \alpha_1 \Delta \big(\partial_t u_1(y,z,t)\big)
+\end{equation*}
+où $\Delta = \partial_{yy}+\partial_{zz}$. Par séparation des variables, on obtient $\partial_xp$ qui est constant ou bien $\partial_xp$ est une fonction de $t$ uniquement. Ici, on souhaite que le mouvement soit généré uniquement par le déplacement d'une paroi, on postule que le fluide est au repos à l'infini avec une pression uniforme. Dans ce cas, il n'y a aucune force motrice externe pour créer une différence de pression. On pose donc $\partial_xp=0$. C'est cette hypothèse qui caractérise un écoulement de Rayleigh (entraînement par la paroi) plutôt qu'un écoulement de Poiseuille (entraînement par la pression). On obtient l'équation de Rayleigh-Stokes homogène
+\begin{equation*}\label{eq_RS_scalaire}
+    \partial_t u_1 - \nu \Delta u_1 - \alpha \Delta \big(\partial_t u_1\big)=0
+\end{equation*}
+où $\nu := \dfrac{\mu}{\rho}$ et $\alpha := \dfrac{\alpha_1}{\rho}$.
+
+\subsection{Dérivation de l'équation de Rayleigh-Stokes vectorielle multidimensionnelle}\label{RS_vectorielle}
+Soit $d \in \bbN$ la dimension. On veut maintenant généraliser l'équation scalaire obtenue en une équation vectorielle. On considère toujours un fluide de grade $2$, incompressible et homogène de densité $\rho>0$. On note la vitesse du fluide $\bfm{u}:\bbR^d \times \bbR_+ \rightarrow \bbR^d$ que l'on supposera suffisamment régulière. On va reproduire le raisonnement de la première section, sans les hypothèses du premier problème de Stokes, en linéarisant par rapport à $\nabla \bfm{u}$. Les équations du mouvement du milieu continu nous donnent 
+\begin{equation}\label{PFD2}
+    \rho \frac{D\bfm{u}}{Dt} = \Div(\sigma) + \rho \bfm{f}
+\end{equation}
+où $\sigma$ est le tenseur des contraintes et $\bfm{f}$ les forces extérieures. Pour un fluide de second grade, le tenseur des contraintes est donné par le théorème de Rivlin-Ericksen
+\begin{equation*}
+    \sigma := -pI + \mu A_1 + \alpha_1 A_2 + \alpha_2 A_1^2
+\end{equation*}
+où on conserve les notations des sections précédentes. Comme dans la section précédente, l'hypothèse de linéarisation nous donne 
+\begin{equation*}
+    \frac{D\bfm{u}}{Dt} = \partial_t\bfm{u} + (\bfm{u} \cdot \nabla)\bfm{u} \approx \partial_t \bfm{u}
+\end{equation*}
+et 
+\begin{equation*}
+    \sigma \approx -pI + \mu A_1 + \alpha_1\partial_tA_1
+\end{equation*}
+Donc 
+\begin{equation*}
+    \Div(\sigma) = -\nabla p +\mu \Delta \bfm{u} + \alpha_1 \Delta\big(\partial_t \bfm{u} \big)
+\end{equation*}
+On remplace dans \eqref{PFD2} et on réorganise les termes, on obtient alors 
+\begin{equation*}
+    \partial_t\bfm{u} - \frac{\mu}{\rho}\Delta \bfm{u} - \frac{\alpha_1}{\rho}\Delta \big(\partial_t \bfm{u}\big) +\frac{1}{\rho}\nabla p= \bfm{f} 
+\end{equation*}
+En posant, $\nu := \mu/\rho$, $\alpha := \alpha_1/\rho$, et $\tilde{p}=p/\rho$ on parvient finalement au système d'inconnues $(\bfm{u}, \tilde{p})$
+\begin{equation}\label{eq_RS}
+    \left\{\begin{array}{l}
+         \partial_t\bfm{u} - \nu\Delta \bfm{u} - \alpha\Delta \big(\partial_t \bfm{u}\big) = -\nabla \tilde{p} + \bfm{f}  \\
+         \Div (\bfm{u}) = 0
+    \end{array}\right.
+\end{equation}
+
+\newpage

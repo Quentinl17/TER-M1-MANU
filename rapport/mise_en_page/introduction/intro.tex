@@ -1,0 +1,25 @@
+% ==================================================================================
+% Introduction 
+% ==================================================================================
+
+\thispagestyle{empty}
+\vspace*{1cm}
+
+\begin{center}
+    \Large\textbf{Introduction}
+\end{center}
+
+L'équation de Rayleigh-Stokes est une équation aux dérivées partielles utilisée en dynamique des fluides pour modéliser le comportement des fluides non-newtoniens, en particulier les fluides de second grade \footnote{Un \textit{fluide de second grade} ou \textit{fluide de grade $2$} est un modèle de fluide non-newtonien, c'est-à-dire que le tenseur des contraintes n'est plus proportionnel au tenseur des déformations.}. Une forme canonique de l'équation pour une fonction de vitesse $u$ est
+\begin{equation*}
+    \partial_t u - \nu \Delta u - \alpha \Delta \big(\partial_t u\big) = f
+\end{equation*}
+où
+\begin{itemize}
+    \item $\nu$ est la viscosité cinématique du fluide, responsable de la diffusion classique,
+    \item $\alpha$ est le paramètre de Rayleigh-Stokes, lié aux propriétés viscoélastiques du fluide,
+    \item $f$ est un terme de forçage,
+    \item $\Delta \big(\partial_t u\big)$ est un terme dit de \og dispersion régularisée \fg{} qui caractérise le comportement du fluide sous l'effet d'une accélération.
+\end{itemize}
+Ce modèle trouve des applications dans plusieurs domaines scientifiques. En rhéologie des polymères, il permet de simuler le comportement de fluides qui ne s'écoulent pas instantanément sous l'effet d'un cisaillement. En géophysique, il est utilisé pour modéliser certains mouvements de fluides dans des milieux poreux où les effets de mémoire ne peuvent être négligés. En micro-fluidique, à petite échelle, les forces de surface et les temps de réponse moléculaires deviennent prépondérants, rendant ce type de modèle indispensable. On peut également mentionner le problème de Rayleigh ou premier problème de Stokes, qui décrit l'écoulement engendré par une plaque plane mise soudainement en mouvement dans un fluide visqueux.
+\\
+C'est d'ailleurs le premier problème de Stokes qui est à l'origine du modèle, car ce n'est pas la forme initiale sous laquelle cette équation est apparue dans la littérature. Nous allons donc revenir aux origines du modèle en nous intéressant au premier problème de Stokes et généraliser le problème en dimension supérieure. Puis, nous allons voir différentes manières d'étudier le problème : dans un premier temps, par une analyse de Fourier en cherchant une solution dans l'espace des distributions tempérées, puis dans les espaces de Sobolev appropriés. Dans cette même section, nous comparerons nos résultats avec l'équation de la chaleur qui est liée à cette équation de Rayleigh-Stokes puisqu'on la retrouve en prenant $\alpha =0$ ; puis dans un second temps, nous allons étudier cette équation par une approche variationnelle sur un domaine borné de $\bbR^d$ avec des conditions de Dirichlet homogènes. Ensuite, nous verrons une première approche numérique avec plusieurs schémas différences finies qui nous permettrons de mettre en évidence la très bonne stabilité numérique de ce problème due au terme $\alpha$. Comme pour l'analyse de Fourier, nous comparerons ces résultats avec ceux sur l'équation de la chaleur. Nous simulerons également quelques cas tests ayant une interprétation physique liée aux applications énoncées précédemment. Enfin, nous terminerons par une approche via la méthode Galerkin discontinu. Nous définirons différents schémas en fonction des bases choisies et nous comparerons nos résultats avec ceux obtenus dans la section précédente sur les schémas différences finies. Nous implémenterons également quelques cas tests similaires aux précédents.

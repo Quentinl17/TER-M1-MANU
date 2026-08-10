@@ -1,0 +1,232 @@
+% =================================================================================
+% ANNEXES
+% =================================================================================
+\renewcommand{\appendixtocname}{Annexes}
+\renewcommand{\appendixpagename}{Annexes}
+
+\begin{appendices}
+% ---------------------------------------------------------------------------------
+\section{Démonstration du théorème \ref{thm_lax}}\label{AnnexeA}
+% ---------------------------------------------------------------------------------
+On rappelle l'énoncé du théorème.
+\begin{theoreme}
+Soient $(H, \langle \cdot, \cdot \rangle)$ et $(H_0, \langle \cdot, \cdot \rangle_0)$ deux espaces de Hilbert tels que $H$ est un sous-espace dense de $H_0$
+et 
+\begin{equation}\label{norm_equiv_H_H0}
+    \exists k >0,\ \forall x \in H, \ \norm{x} \geq k \norm{x}_0
+\end{equation}
+Soit $B$ une forme bilinéaire continue et coercive sur $H$. Alors il existe deux opérateurs linéaires $E$ et $E^*$, dont les domaines de définitions $D$ et $D^*$ sont denses dans $H$, tels que
+\begin{enumerate}
+    \item On a
+    \begin{eqnarray*}
+        \forall x \in D,\ \forall y \in H, \ B(x,y) &=& \ps{Ex}{y}_0 \\
+        \forall y \in D^*,\ \forall x \in H, \ B(x,y) &=& \ps{x}{E^* y}_0
+    \end{eqnarray*}
+    \item L'image de $E$ est $H_0$, de même pour $E^*$.
+    \item $E$ et $E^*$ admettent des inverses $S$ et $S^*$ qui sont continus de $H_0$ dans $H$.
+    \begin{eqnarray*}
+        \exists k_1>0,\ \forall z \in H_0, \ \norm{Sz} &\leq& k_1 \norm{z}_0 \\
+        \exists k_1^*>0,\ \forall z \in H_0, \ \norm{S^*z} &\leq& k_1^* \norm{z}_0
+    \end{eqnarray*}
+    Et donc, $S$ et $S^*$ sont continus de $H_0$ dans $H_0$
+    \begin{eqnarray*}
+        \exists k_2>0,\ \forall z \in H_0, \ \norm{Sz}_0 &\leq& k_2 \norm{z}_0 \\
+        \exists k_2^*>0,\ \forall z \in H_0, \ \norm{S^*z}_0 &\leq& k_2^* \norm{z}_0
+    \end{eqnarray*}
+\end{enumerate}
+\end{theoreme}
+
+\begin{proof}
+    On se contentera de montrer le théorème pour $E$ car pour $E^*$ le raisonnement sera identique mais portera sur le deuxième argument de la forme bilinéaire $B$. Ceci s'explique par le fait que $B$ n'est pas symétrique.
+    \\
+    Soit $z \in H_0$. On peut définir une forme linéaire $\ell$ sur $H$ par 
+    \begin{equation*}
+        \forall x \in H, \ \ell(x) = \langle z, x \rangle_0
+    \end{equation*}
+    On a $\ell \in H'$, en effet par Cauchy-Schwarz on a 
+    \begin{equation*}
+        \forall x \in H, \ |\ell(x)| = |\langle z, x \rangle_0| \overset{\eqref{norm_equiv_H_H0}}{\leq} \frac{1}{k}\|z\|_0 \|x\|
+    \end{equation*}
+    On considère le problème : trouver $y \in H$ tel que 
+    \begin{equation}\label{proof_pbm_var}
+        \forall x \in H, \ B(y,x) = \ell(x)
+    \end{equation}
+    On a montré que $\ell$ est continue sur $H$ et par hypothèse, $B$ est continue et coercive sur $H$ donc par le théorème de Lax-Milgram il existe un unique $y \in H$ tel que \eqref{proof_pbm_var} soit satisfaite. Cette solution $y$ dépend de $z$ et ce $z$ étant quelconque dans $H_0$, ce raisonnement est valable pour tout $z \in H_0$. On définit ainsi une application 
+    \begin{equation*}
+        S : H_0 \rightarrow H, \ z \mapsto S(z) = y
+    \end{equation*}
+    Autrement dit, cette application $S$ associe à chaque $z \in H_0$ la solution $y \in H$ au problème \eqref{proof_pbm_var} où $\ell = \langle z, \cdot \rangle_0$.
+    A présent, montrons les propriétés de $S$.
+    \begin{itemize}
+        \item Montrons que $S$ est linéaire.
+        \\
+        Soient $z,z' \in H_0$ et $\lambda \in \bbR$. Par définition, il existe $y, y' \in H$ tels que 
+        \begin{eqnarray}\label{proof_eg1}
+            \forall x \in H, \ B(y,x) &=& \langle z,x \rangle_0 \nonumber \\
+            \forall x \in H, \ B(y',x) &=& \langle z',x \rangle_0
+        \end{eqnarray}
+        On peut multiplier la première égalité par $\lambda$ et utiliser les propriétés de linéarité pour obtenir 
+        \begin{equation}\label{proof_eg2}
+            \forall x \in H, \ B(\lambda y, x) = \langle \lambda z, x\rangle_0
+        \end{equation}
+        On somme \eqref{proof_eg1} et \eqref{proof_eg2}, ce qui donne en utilisant à nouveau la linéarité
+        \begin{eqnarray*}
+            \forall x \in H, \ B(\lambda y + y',x) = \langle \lambda z+z', x \rangle_0
+        \end{eqnarray*}
+        Ainsi,
+        \begin{eqnarray*}
+            S(\lambda z+z') = \lambda y+y' = \lambda S(z) + S(z')
+        \end{eqnarray*}
+        d'où la linéarité de $S$.
+        \item Montrons que $D:=S(H_0)$ est dense dans $H$. On notera plus simplement $\overline{D}:=\overline{D}^H$, car nous ne regarderons par $\overline{D}^{H_0}$.
+        \\
+        Tout d'abord, $D$ est un sous-espace vectoriel de $H$ car $H_0$ est un espace vectoriel et $S$ est une application linéaire. Donc $\overline{D}$ est aussi un sous-espace vectoriel de $H$. Supposons par l'absurde que $\overline{D} \subsetneq H$. Alors $\overline{D}$ est un sous-espace vectoriel fermé de $H$ donc $\{0\} \subsetneq \overline{D}^{\perp}$ (on utilisera dans la suite le fait que l'orthogonal \og ne voit pas \fg{} l'adhérence, \textit{i.e.} $\overline{D}^{\perp} = D^{\perp}$). Soit $z \in D^{\perp}$ tel que $z\neq 0$. On considère le problème \eqref{proof_pbm_var}, en utilisant une nouvelle le théorème de Lax-Milgram, on obtient l'existence d'un unique $y \in H$ vérifiant \eqref{proof_pbm_var}. On a $y=Sz \in D \subset H$ et la coercivité de $B$ donne (on note $\alpha >0$ la constante de coercivité)
+        \begin{equation*}
+            \alpha \|y\|^2 \leq B(y,y) = \langle z,y \rangle_0 = 0
+        \end{equation*}
+        donc $y=0$. Ainsi, on a
+        \begin{equation*}
+            \forall x \in H, \ \langle z, x \rangle_0 = 0
+        \end{equation*}
+        En particulier, pour $x=z$ on obtient $\|z\|_0^2=0$ donc $z=0$ ce qui est absurde. Donc $\overline{D} = H$.
+        \item Montrons que $S : H_0 \rightarrow D$ admet un inverse.
+        \\
+        Par définition, $S : H_0 \rightarrow D$ est surjective. Montrons qu'elle est injective. Soient $v,w \in H_0$ tels que $Sv = Sw$. On a alors par définition de $S$
+        \begin{eqnarray*}
+            \forall x \in H, \ B(Sv, x) = \langle v,x \rangle_0 \ \ \ &\text{ et }& \ \ \ B(Sw,x)=\langle w,x\rangle_0
+        \end{eqnarray*}
+        en utilisant l'hypothèse, on obtient 
+        \begin{eqnarray*}
+            \forall x \in H, \ \langle v,x \rangle_0 = \langle w, x \rangle_0 &\Longrightarrow& \langle v-w, x \rangle_0=0
+        \end{eqnarray*}
+        donc $v-w \in H^\perp = \overline{H}^\perp = H_0^\perp=\{0\}$ donc $v=w$. Ainsi, $S$ admet un inverse que l'on note $E$ et on a bien 
+        \begin{equation*}
+            \forall x \in D, \ \forall y \in H, B(x,y) = \langle S^{-1}x,y\rangle_0 = \langle Ex, y \rangle_0
+        \end{equation*}
+        \item Montrons que $S$ est continue de $H_0$ dans $H$ et de $H_0$ dans lui-même.
+        \\
+        Par coercivité de $B$, on a pour tout $z \in H_0$
+        \begin{equation*}
+            \alpha \|Sz\|^2 \leq B(Sz,Sz) = \langle z, Sz \rangle_0 \overset{\text{C-S}}{\leq} \|z\|_0\|Sz\|_0 \overset{\eqref{norm_equiv_H_H0}}{\leq} \frac{1}{k}\|z\|_0\|Sz\|
+        \end{equation*}
+        d'où la continuité de $H_0$ dans $H$
+        \begin{equation*}
+            \|Sz\|_0 \leq \frac{1}{\alpha k} \|z\|_0
+        \end{equation*}
+        et en utilisant à nouveau \eqref{norm_equiv_H_H0} on obtient le continuité de $H_0$ dans lui-même
+        \begin{equation*}
+            \forall z \in H_0, \ \|Sz\|_0 \leq \frac{1}{k}\|Sz\| \leq \frac{1}{\alpha k^2}\|z\|_0
+        \end{equation*}
+    \end{itemize}
+\end{proof}
+
+\newpage
+
+% ---------------------------------------------------------------------------------
+\section{Démonstration du théorème \ref{thm_densite}}\label{AnnexeB}
+% ---------------------------------------------------------------------------------
+Commançons par rappeller les notations. On considère l'espace de 
+Hilbert 
+\begin{equation*}
+    V = \{ \bfm{v} \in \big(\Hone\big)^d \ \ | \ \ \Div(\bfm{v})=0\}
+\end{equation*}
+et l'espace 
+\begin{equation*}
+    \calD_{\sigma}(\Omega) = \{\bfm{\varphi} \in \big(\calD(\Omega)\big)^d \ \ | \ \ \Div(\bfm{\varphi})=0\}
+\end{equation*}
+Montrons dans un premier temps que $V$ est un espace de Hilbert. 
+On sait que $\Hone$ est un Hilbert, donc $\big(\Hone\big)^d$ est 
+un Hilbert comme produit d'espace de Hilbert. On a clairement
+\begin{equation*}
+    V \subset \big(\Hone\big)^d
+\end{equation*}
+donc, pour montrer que $V$ est un Hilbert, il suffit de montrer que 
+$V$ est fermé dans $\big(\Hone\big)^d$. On considère l'application 
+$\Div : \big(L^2(\Omega)\big)^d \rightarrow H^{-1}(\Omega)$. Cette application est continue,
+en effet, soit $\bfm{u} \in \big(L^2(\Omega)\big)^d$ et soit $\varphi \in \calD(\Omega)$.
+\begin{eqnarray*}
+    |\langle \Div(\bfm{u}),\varphi \rangle| &=& |\langle \sum_{i=1}^d \partial_i u_i , \varphi \rangle| \\
+    &=& \bigg|\sum_{i=1}^d \langle \partial_i u_i, \varphi \rangle\bigg| \\
+    &=& \bigg|-\sum_{i=1}^d \langle u_i, \partial_i\varphi \rangle\bigg| \\
+    &=& \bigg|\sum_{i=1}^d \int_{\Omega} u_i \partial_i\varphi \bigg| \\
+    &=& \bigg|\int_{\Omega} \bfm{u}\cdot\nabla \varphi\bigg| \\
+    &\overset{\text{C-S}}{\leq}& \|\bfm{u}\|_{L^2}\|\nabla \varphi\|_{L^2} \\
+    &\leq& \|\bfm{u}\|_{L^2}\|\varphi \|_{H^1}
+\end{eqnarray*} 
+Donc en particulier, $\Div : \big(\Hone\big)^d \rightarrow H^{-1}(\Omega)$ est continue et donc 
+$V= \Div^{-1}\big(\{0\}\big)$ est fermé dans $\big(\Hone\big)^d$ comme 
+image réciproque d'un fermé par une application continue.
+\\\\
+Passons à présent à la démonstration du théorème \ref{thm_densite}, on rappelle l'énoncé
+\begin{theoreme}
+    Si $\Omega \subset \bbR^d$ est un ouvert borné à la frontière
+    suiffisamment régulière alors $\calD_{\sigma}(\Omega)$
+    est dense dans $V$.
+\end{theoreme}
+
+\begin{proof}
+    Comme $\calD(\Omega)$ est dense dans $\Hone$, $\big(\calD(\Omega)\big)^d$
+    est dense dans $\big(\Hone\big)^d$. Soit $\bfm{v} \in V$. Alors il 
+    existe $(\bfm{\varphi}_n)_{n \in \bbN} \subset \big(\calD(\Omega)\big)^d$
+    telle que $\bfm{\varphi}_n\underset{n \to +\infty}{\overset{\Hone^d}{\longrightarrow}} \bfm{v}$, 
+    cependant rien ne dit que 
+    \begin{equation*}
+        \forall n \in \bbN, \ \Div(\bfm{\varphi}_n) = 0
+    \end{equation*}
+    On pose 
+    \begin{equation*}
+        \forall n \in \bbN, \ f_n := \Div(\bfm{\varphi}_n) \in \calD(\Omega)
+    \end{equation*}
+    Comme $\Div(\bfm{v})=0$, on a 
+    \begin{equation*}
+        f_n = \Div(\bfm{\varphi}_n) - \Div(\bfm{v}) = \Div(\bfm{\varphi}_n-\bfm{v})
+    \end{equation*}
+    et par continuité de $\Div$
+    \begin{equation*}
+        \|f_n\|_{L^2} \leq \|\bfm{\varphi}_n -\bfm{v}\|_{H^1} \underset{n \to +\infty}{\longrightarrow} 0
+    \end{equation*}
+    De plus, par le théorème de la divergence on a
+    \begin{equation*}
+        \int_{\Omega}f_n = \int_{\Omega} \Div(\bfm{\varphi}_n) = \int_{\partial \Omega} \bfm{\varphi}_n \cdot n = 0
+    \end{equation*}
+    donc $(f_n)_{n \in \bbN} \subset L^2_0(\Omega)$ l'ensemble des fonctions de $L^2(\Omega)$ de moyenne nulle.
+    Par le théorème de De Rahm, il existe un opérateur continu
+    $T : L^2_0(\Omega) \rightarrow \big(\Hone\big)^d$ tel que 
+    \begin{equation*}
+        \forall q \in L_0^2(\Omega), \ \Div(Tq) = q
+    \end{equation*}
+    On considère à présent la suite définie par 
+    \begin{equation*}
+        \forall n \in \bbN, \ \bfm{\psi}_n := Tf_n \in \big(\Hone\big)^d
+    \end{equation*}
+    On a par continuité de $T$, 
+    \begin{equation*}
+        \|\bfm{\psi}_n\|_{H^1} \leq C \|f_n\|_{L^2} \underset{n \to +\infty}{\longrightarrow} 0
+    \end{equation*}
+    On pose maintenant 
+    \begin{equation*}
+        \forall n \in \bbN, \ \bfm{v}_n := \bfm{\varphi}_n - \bfm{\psi}_n 
+    \end{equation*}
+    Ansi, 
+    \begin{eqnarray*}
+        \Div(\bfm{v}_n) = \Div(\bfm{\varphi}_n) - \Div(\bfm{\psi}_n)
+        = \Div(\bfm{\varphi}_n) - \Div(Tf_n) = \Div(\bfm{\varphi}_n) - f_n = 0
+    \end{eqnarray*}
+    Finalement, on obtient 
+    \begin{equation*}
+        \|\bfm{v}-\bfm{v}_n\|_{H^1} \leq \|\bfm{v}-\bfm{\varphi}_n\|_{H^1}+\|\bfm{\psi}_n\|_{H^1} \underset{n \to +\infty}{\longrightarrow} 0
+    \end{equation*}
+\end{proof}
+
+\begin{remark}
+    La suite $(\bfm{v}_n)_{n \in \bbN}$ n'est pas dans $\calD_{\sigma}(\Omega)$
+    donc le théorème n'est pas démontré.
+\end{remark}
+
+\newpage
+
+% ---------------------------------------------------------------------------------
+%\section{}
+% ---------------------------------------------------------------------------------
+
+\end{appendices}

@@ -1,0 +1,24 @@
+% ==================================================================================
+% Introduction 
+% ==================================================================================
+
+\thispagestyle{empty}
+\vspace*{1cm}
+
+\begin{center}
+    \Large\textbf{Conclusion}
+\end{center}
+
+Ce travail encadré de recherche nous a permis de réaliser un projet de groupe sur le long terme, le projet étant d'étudier l'équation de Rayleigh-Stokes. Nous avons choisis ce sujet car il nous permettait d'aborder tout les aspects de notre formation. 
+\\
+Dans un premier temps, la partie modélisation, en lisant l'article sur le premier problème de Stokes \cite{Christov2010} nous avons pu utiliser notre cours de mécanique et ainsi mieux comprendre le modèle et sa dérivation. 
+\\
+Ensuite, la partie analyse mathématique avec d'abord une analyse de Fourier dans laquelle nous avons grandement utilisé le cours d'Analyse des EDP2. Cette analyse nous a permis de démontrer l'existence et l'unicité d'une solution dans différents espaces. Cette équation est liée à l'équation de la chaleur puisqu'on retrouve celle-ci en prenant $\alpha=0$, l'analyse de Fourier nous a aussi permis de comparer le comportement de la solution de l'équation de Rayleigh-Stokes avec la solution de l'équation de la chaleur et ainsi mettre en évidence une propriété de filtre passe-bas due, justement, au terme $\alpha$.
+\\
+Puis, nous avons suivi l'approche menée dans l'article de Showalter et Ting \cite{Showalter_Ting} pour résoudre le problème par une formulation variationnelle. Cette méthode nous a conduits à utiliser les notions d'Analyse numérique $3$ pour obtenir une formulation faible du problème. Le résultat important de cette partie est bien entendu le théorème \ref{thm_lax}, il nous a permis de reformuler le problème pour pouvoir utiliser la théorie des semi-groupes, que nous avions légèrement abordées durant le cours d'Analyse des EDP2. Pour terminer, la modélisation mécanique nous a amené à une équation vectorielle dont le cas n'était pas étudié dans l'article \cite{Showalter_Ting}, nous avons alors tenté de reproduire le raisonnement utilisé pour l'équation scalaire pour l'équation vectorielle. Ce raisonnement n'a pas été très difficile à adapter, cependant le cadre théorique autour de l'équation vectorielle était bien plus compliqué à aborder et l'adaptation de celui-ci n'a pas toujours été fructueuse. Il nous faudra donc revenir sur le cadre théorique et les résultats associés à celui-ci.
+\\
+Enfin, le dernier aspect de notre formation : l'analyse numérique. Nous avons commencé par définir un schéma différence finie d'Euler implicite. L'étude de ce schéma montre qu'il est consistant d'ordre un en temps et deux en espace et stable, donc il est convergent. Mais l'étude de la stabilité nous a permis de mettre en évidence, comme pour l'analyse de Fourier, la propriété de filtre passe-bas de la solution due une nouvelle fois au terme $\alpha$. Selon l'ordre de grandeur de $\alpha$ devant $\nu$ on a l'amortissement immédiat des hautes fréquences. Puis nous avons comparé ces résultats avec ceux pour l'équation de la chaleur sur un profil sinusoïdal, ce qui nous a conduit une nouvelle fois à remarquer l'importante influence du paramètre $\alpha$ sur le comportement de la solution.
+\\
+Nous avons ensuite implémenté quelques cas tests ayant une interprétation physique intéressante que nous pouvions liée à notre cours de Mécanique ainsi qu'avec l'article \cite{Christov2010}. Pour finir, nous avons implémenté un schéma différence finie de Crank-Nicolson dans le but de monter en ordre en temps. On a alors obtenu une schéma consistant d'ordre deux en temps et en espace, toujours stable et donc convergent.
+\\
+Et, nous avons terminé la partie analyse numérique par une tentative d'approche par la méthode de Galerkin discontinue. Cette approche nous a permis de voir un lien entre les méthodes volumes finis et éléments finis et de commencer à lire la documentation liée à cette méthode(\cite{DiPietro2012} et \cite{Gerald2014}). Nous avons pu implémenter le cas $P_0$ qui est similaire aux différences finies cependant le cas $P_1$ semble présenter encore quelques problèmes notamment au niveau de la gestion du flux moyen. Cela nous pousse à continuer d'étudier le choix des flux les plus adaptés pour les équations pseudo-paraboliques.

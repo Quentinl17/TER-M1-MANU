@@ -1,0 +1,544 @@
+\subsection{Approche variationnelle}
+\subsubsection{L'équation scalaire}
+Cette section fait suite à la section \ref{RS_scalaire}. Nous allons ici suivre l'analyse mathématique proposée par Showalter et Ting  \cite{Showalter_Ting} pour étudier l'équation scalaire \eqref{eq_RS_scalaire}. Comme mentionné dans l'introduction, nous allons considérer un domaine borné de $\bbR^d$. Ce choix est motivé par les problèmes physiques qui se posent dans des systèmes réels, simulés sur des domaines finis. Pour simplifier l'étude, on prendra des conditions de Dirichlet homogènes. 
+Le cadre fonctionnel approprié est donc $H^1_0$. 
+On considère un ouvert borné $\Omega \subset \bbR^d$.
+Notre inconnue $u$ dépend à la fois du temps et de l'espace, pour trouver une formulation faible de notre 
+problème \eqref{eq_RS_scalaire} on doit donc gérer la dépendance en temps. Pour ça, on va \og regarder \fg{}
+notre inconnue $\bbR \times \bbR^d \ni (t,x) \mapsto u(t,x) \in \bbR$ comme une fonction 
+$\bbR \ni t \mapsto \tilde{u}(t)$ à valeurs dans un espace vectoriel de fonctions définies sur $\bbR$, c'est-à-dire 
+$\bbR^d \ni x \mapsto \tilde{u}(t)(x) \in \bbR$. Ici, on a un problème d'ordre $2$ en espace avec des conditions 
+de Dirichlet homogènes, on va donc chercher une solution $u : \bbR \rightarrow \Hone$.
+Si on se donne une donnée initiale $u_0$, on peut reformuler \eqref{eq_RS_scalaire} en : trouver $u \in \scrC^1(\bbR, \Hone)$ tel que pour tout $t \in \bbR$
+\begin{equation}\label{pb_RS}
+\begin{cases}
+    u'(t) - \nu\Delta u(t) - \alpha\Delta \big(u'(t)\big) = 0  \\
+    u(0) = u_0
+\end{cases}
+\end{equation}
+On définit deux opérateurs $M$ et $L$ par
+\begin{eqnarray*}
+    M := I - \alpha \Delta \ \ \ \ \ &\text{ et }& \ \ \ \ \ L :=-\nu\Delta
+\end{eqnarray*}
+de sorte à reformuler le problème \eqref{pb_RS} en : trouver $u \in \scrC^1(\bbR, \Hone)$ tel que pour tout $t \in \bbR$
+\begin{equation}\label{RS_forme_operateur}
+\begin{cases}
+    Mu'(t) + Lu(t)=0  \\
+    u(0) = u_0
+\end{cases}
+\end{equation} 
+Nous allons à présent étudier les opérateurs $M$ et $L$ pour montrer l'existence et l'unicité d'une solution à notre problème.
+
+\subsubsection*{Extension de \texorpdfstring{$M$}{M} et \texorpdfstring{$L$}{L}.}
+A priori, nos opérateurs sont définis de $\scrC^2(\Omega)$ dans $\scrC^0(\Omega)$. Pour étendre leurs domaines de définition nous allons utiliser le théorème suivant, du à Lax et Milgram \cite[p.~171]{theory_PDE}.
+
+\begin{theoreme}\label{thm_lax}: \\
+$\ulcorner$Soient $(H, \langle \cdot, \cdot \rangle)$ et $(H_0, \langle \cdot, \cdot \rangle_0)$ deux espaces de Hilbert tels que $H$ est un sous-espace dense de $H_0$ et 
+\begin{equation}\label{ineq_thm_lax}
+    \exists k >0,\ \forall x \in H, \ \norm{x} \geq k \norm{x}_0
+\end{equation}
+Soit $B$ une forme bilinéaire continue et coercive sur $H$. Alors il existe deux opérateurs linéaires $E$ et $E^*$, dont les domaines de définitions $D$ et $D^*$ sont denses dans $H$, tels que
+\begin{enumerate}
+    \item On a
+    \begin{eqnarray*}
+        \forall x \in D,\ \forall y \in H, \ B(x,y) &=& \ps{Ex}{y}_0 \\
+        \forall y \in D^*,\ \forall x \in H, \ B(x,y) &=& \ps{x}{E^* y}_0
+    \end{eqnarray*}
+    \item L'image de $E$ est $H_0$, de même pour $E^*$.
+    \item $E$ et $E^*$ admettent des inverses $S$ et $S^*$ qui sont continus de $H_0$ dans $H$.
+    \begin{eqnarray*}
+        \exists k_1>0,\ \forall z \in H_0, \ \norm{Sz} &\leq& k_1 \norm{z}_0 \\
+        \exists k_1^*>0,\ \forall z \in H_0, \ \norm{S^*z} &\leq& k_1^* \norm{z}_0
+    \end{eqnarray*}
+    Et donc, $S$ et $S^*$ sont continus de $H_0$ dans $H_0$
+    \begin{eqnarray*}
+        \exists k_2>0,\ \forall z \in H_0, \ \norm{Sz}_0 &\leq& k_2 \norm{z}_0 \\
+        \exists k_2^*>0,\ \forall z \in H_0, \ \norm{S^*z}_0 &\leq& k_2^* \norm{z}_0
+    \end{eqnarray*}
+\end{enumerate}
+\end{theoreme}
+
+Un démonstration du théorème est proposée en Annexe \ref{AnnexeA}. Avant de commencer, quelques remarques sur ce théorème.
+
+\begin{remark}
+    \begin{enumerate}
+        \item Le cadre : on considère deux espaces de Hilbert $H$ et $H_0$ dont l'un est \og plus fin \fg{} que l'autre, dans le sens où il est inclus dans l'autre et sa norme est \og plus restrictive \fg{}. On considère ensuite une forme bilinéaire $B$ continue et coercive sur $H$, donc la forme bilinéaire se comporte très bien sur $H$.
+        \item L'idée générale : de la même manière que le théorème de représentation de Riesz, on va chercher à \og représenter \fg{} la forme bilinéaire $B$ par un produit scalaire. Cependant, l'idée va un peu plus loin puisqu'on veut la représenter sur un espace \og plus grand \fg{} et par un opérateur linéaire.
+        \item Le but : passer d'un problème variationnel à une équation de la forme $Eu = f$ pour utiliser la théorie des semi-groupes ou encore la théorie spectrale.
+        \item Le premier point du théorème permet donc de \og représenter \fg{} la forme bilinéaire $B$ à l'aide d'un opérateur linéaire $E$ et d'un produit scalaire tout en \og l'étendant \fg{} dans le sens où le produit scalaire est celui sur $H_0$ qui est le \og plus grand \fg{} espace. On se contente ici de parler de $E$, les arguments pour $E^*$ étant les mêmes. Comme la forme bilinéaire $B$ n'est pas symétrique on a $E^* \neq E$ et $E^*$ est l'adjoint de $E$.
+        \item Le deuxième point du théorème nous indique que l'opérateur $E$ est bijectif, ce qui signifie que pour tout second membre $f \in H_0$ on a l'existence d'une unique solution à l'équation $Eu=f$.
+        \item Le troisième point du théorème nous assure l'existence d'un inverse $S$ de $E$, ainsi l'équation $Eu=f$ admet pour solution $u=Sf$. La continuité de l'opérateur $S$ nous garantit le bon comportement de la solution par rapport à la donnée initiale. De plus, la continuité de $S : H_0 \rightarrow H$ nous permet de gagner en \og régularité \fg{}.
+    \end{enumerate} 
+\end{remark}
+
+Dans notre cas, on considère les espaces de Hilbert $H=H^1_0(\Omega)$ et $H_0=L^2(\Omega)$. On utilisera les inclusions suivantes
+\begin{equation*}
+    \scrD \ \subset \ \Hone \ \subset \ L^2(\Omega)
+\end{equation*}
+et comme $\overline{\scrD}^{L^2(\Omega)}$ = $L^2(\Omega)$, on a bien 
+\begin{equation*}
+    \overline{\Hone}^{L^2(\Omega)} = L^2(\Omega)
+\end{equation*}
+De plus, on a 
+\begin{equation*}
+    \forall \varphi \in \Hone, \ \|\varphi\|_{L^2} \leq \|\varphi\|_{H^1}
+\end{equation*}
+On va maintenant chercher à établir une formulation faible de notre équation du problème \eqref{pb_RS}. Soit donc $v \in \Hone$.
+\begin{eqnarray*}
+    \int_{\Omega}Mu'(t)v + \int_{\Omega} Lu(t)v =0 &\Longrightarrow&
+    \int_{\Omega} u'(t)v - \alpha \int_{\Omega} \Delta u'(t)v - \nu \int_{\Omega}
+    \Delta u(t)v = 0 \\
+    &\overset{\text{Green}}{\Longrightarrow}& \int_{\Omega} u'(t)v + \alpha \int_{\Omega} \nabla u'(t)\cdot\nabla v + \nu \int_{\Omega}
+    \nabla u(t)\cdot \nabla v = 0 \\
+    &\Longrightarrow& \int_{\Omega} \big(u'(t)v+\alpha\nabla u'(t)\cdot\nabla v\big)
+    + \nu\int_{\Omega} \nabla u(t)\cdot \nabla v = 0
+\end{eqnarray*}
+On définit ainsi deux formes bilinéaires sur $\Hone$
+\begin{eqnarray*}
+    b_M(\varphi, \psi) = \int_{\Omega} \big(\varphi\psi+\alpha\nabla \varphi\cdot\nabla \psi\big) \ \ \ \ \ &\text{ et }& \ \ \ \ \
+    b_L(\varphi, \psi) = \nu\int_{\Omega} \nabla \varphi\cdot \nabla \psi
+\end{eqnarray*}
+
+\begin{remark}
+    Si $\varphi$ et $\psi$ sont suffisamment régulières (par exemple $\varphi, \psi \in \scrD$), alors les implications précédentes sont des équivalences et donc on a
+    \begin{eqnarray*}
+        b_M(\varphi,\psi) = \ps{M\varphi}{\psi}_{L^2} \ \ \ \ \ &\text{ et }& \ \ \ \ \ b_L(\varphi,\psi) = \ps{L\varphi}{\psi}_{L^2}
+    \end{eqnarray*}
+\end{remark}
+
+On obtient ainsi le problème variationnel associé au problème continu \eqref{RS_forme_operateur} : pour tout $t \in \bbR$, trouver $u(t) \in \Hone$ tel que
+\begin{equation*}
+    \forall v \in \Hone, \ \frac{\mathrm{d}}{\mathrm{d}t} b_M\big(u(t),v\big) + b_L\big(u(t),v\big) = 0
+\end{equation*}
+Nous cherchons maintenant à appliquer notre théorème. Montrons que $b_M$ et $b_L$ sont continues et coercives sur $H^1_0(\Omega)$.
+\begin{itemize}
+    \item Soient $\varphi, \psi \in \Hone$.
+    \begin{align*}
+        \abs{ b_M(\varphi,\psi)} &= \abs{\int_{\Omega}\varphi \psi + \alpha \int_{\Omega}\nabla\varphi\cdot\nabla\psi} \\
+        & \overset{\text{C-S}}\leq \norm{\varphi}_{L^2}\norm{\psi}_{L^2} + \alpha \norm{\nabla\varphi}_{L^2}\norm{\nabla\psi}_{L^2}  \\
+        &\leq (1+\alpha)\norm{\varphi}_{H^1}\norm{\psi}_{H^1}
+    \end{align*}
+    Donc $b_M$ est continue sur $H^1_0(\Omega)$.
+    \item Soit $\varphi \in \Hone$.
+    \begin{equation*}
+        b_{M}(\varphi,\varphi) = \int_{\Omega} \varphi^2 + \alpha \int_{\Omega}\abs{\nabla \varphi}^2 \geq \min(1,\alpha) \norm{\varphi}^2_{H^1}
+    \end{equation*}
+    Donc $b_M$ est coercive sur $H^1_0(\Omega)$
+    \item Soient $\varphi, \psi \in \Hone$.
+    \begin{align*}
+        \abs{ b_L(\varphi,\psi)} &= \abs{\nu \int_{\Omega}\nabla\varphi\cdot\nabla\psi}\\
+        & \overset{\text{C-S}}\leq \nu \norm{\nabla\varphi}_{L^2}\norm{\nabla\psi}_{L^2} \\
+        &\leq \nu \norm{\varphi}_{H^1}\norm{\psi}_{H^1}
+    \end{align*}
+    Donc $b_L$ est continue sur $H^1_0(\Omega)$.
+    \item Soit $\varphi \in \Hone$.
+    \begin{equation*}
+        b_{L}(\varphi,\varphi) =\nu \norm{\nabla \varphi}^2_{L^2}
+        =\nu \abs{\varphi}^2_{H^1} 
+        \geq C_1 \nu \norm{\varphi}^2_{H^1}
+    \end{equation*}
+    où $|\cdot|_{H^1}$ désigne la norme $\Hone$, et on utilise le fait que sur $\Hone$, $\|\cdot\|_{H^1}$ et $|\cdot|_{H^1}$ sont équivalentes, donc $C_1 \in \bbR$ est un constante. Donc $b_L$ est coercive sur $H^1_0(\Omega)$.
+\end{itemize}
+On peut appliquer le théorème \ref{thm_lax}, ainsi il existe deux opérateurs $M_0$ et $L_0$, définis respectivement sur $D(M_0)$ et $D(L_0)$, qui sont denses dans $H^1_0(\Omega)$, tels que
+\begin{align*}
+    &\forall \varphi \in D(M_0),\ \forall \psi \in H^1_0(\Omega), \ b_M(\varphi, \psi) = \ps{M_0\varphi}{\psi}_{L^2} \\
+    &\forall \varphi \in D(L_0),\ \forall \psi \in H^1_0(\Omega), \ b_M(\varphi, \psi) = \ps{L_0\varphi}{\psi}_{L^2}
+\end{align*}
+En particulier, on a pour tout $\varphi \in \scrC^2(\Omega)$ et pour tout $\psi \in H^1_0(\Omega)$ que
+$$ \ps{M\varphi}{\psi}_{L^2} - \ps{M_0\varphi}{\psi}_{L^2} = 0 \ \Longrightarrow \ \ps{(M-M_0)\varphi}{\psi}_{L^2} $$
+En prenant $\psi = (M-M_0)\varphi$ on obtient
+\begin{equation*}
+    \norm{(M-M_0)\varphi}^2_{L^2} = 0 \ \Longrightarrow \ (M-M_0)\varphi = 0
+    \ \Longrightarrow \ M\varphi = M_0 \varphi
+\end{equation*}
+donc $M_0=M$ sur $\scrC^2(\Omega)$ ce qui montre bien que $M_0$ est une extension de $M$. Un raisonnement identique nous donne $L_0 = L$ sur $\scrC^2(\Omega)$ et donc $L_0$ est bien une extension de $L$. Le théorème nous assure également de l'existence de $M^{-1}_0$ et du fait que cet inverse est continu de $L^2(\Omega)$ dans $H^1_0(\Omega)$. Finalement, \eqref{RS_forme_operateur} se réécrit comme le problème suivant
+\begin{equation}\label{edo_ML}
+\begin{cases}
+    u'(t) = -M^{-1}_0 L_0u(t)  \\
+    u(0) = u_0
+\end{cases}
+\end{equation}
+
+\subsubsection*{Extension de \texorpdfstring{$-M^{-1}_0 L_0$}{M-1\_0 L\_0}.}
+Nous voulons désormais étendre $-M^{-1}_0 L_0$ pour que \eqref{RS_forme_operateur} soit bien défini dans $\Hone$. L'application du théorème nous a donne deux opérateurs étendus qui sont des bijections
+\begin{eqnarray*}
+    M_0 : D(M_0) \longrightarrow L^2(\Omega) \ \ \ \ \ &\text{ et }& \ \ \ \ \ L_0 : D(L_0) \longrightarrow L^2(\Omega)
+\end{eqnarray*}
+Cela justifie que  $-M^{-1}_0L_0 : D(L_0)\longrightarrow D(M_0)$ est une bijection. Pour étendre notre opérateur nous utilisons alors le résultat suivant vu dans le cours d'Analyse fonctionnelle.
+
+\begin{theoreme}\label{thm_prolongement}
+    Soient E et F deux espaces vectoriels normés. On suppose que F est complet et on considère un sous-espace dense $G \subset E$. Soit $f : G \longrightarrow F$ une application uniformément continue. Alors il existe une unique application $\mathscr{F} : E \longrightarrow F$ uniformément continue telle que $\mathscr{F}_{|G} = f$.
+\end{theoreme}
+
+On considère l'application $-M^{-1}_0L_0 : \scrD\longrightarrow \Hone$ qui aura le rôle de $f$ du théorème précédent. $\Hone$ est complet puisque c'est un Hilbert et $\scrD$ est dense dans $\Hone$ par définition. Il ne nous reste plus qu'à montrer que notre opérateur linéaire est uniformément continu, ce qui est équivalent à montrer qu'il est continu par linéarité.
+\\
+Soit $\varphi \in \scrD$. Alors 
+\begin{eqnarray*}
+    u = -\operateurs \varphi &\iff& M_0u = -L_0 \varphi
+\end{eqnarray*}
+En utilisant les inégalités de continuité sur $L_0$ et de coercivité sur $M_0$, on obtient
+\begin{eqnarray*}
+    \min(1,\alpha) \norm{u}^2_{H^1} \leq \ps{M_0u}{u}_{L^2} = \ps{-L_0\varphi}{u}_{L^2} \leq \nu \norm{\varphi}_{H^1}\norm{u}_{H^1}
+\end{eqnarray*}
+Ce qui revient à écrire 
+\begin{eqnarray*}
+    \min(1,\alpha) \norm{\operateurs \varphi}^2_{H^1} &\leq& \nu \norm{\varphi}_{H^1}\norm{\operateurs \varphi}_{H^1}
+\end{eqnarray*}
+et donc 
+\begin{eqnarray*}
+    \norm{\operateurs \varphi}_{H^1} \leq \frac{\nu}{\min(1,\alpha)}\norm{\varphi}_{H^1}
+\end{eqnarray*}
+Ainsi, l'opérateur $-\operateurs$ est continue sur $\Hone$. Par le théorème \eqref{thm_prolongement} il existe un unique opérateur $B : \Hone \longrightarrow \Hone$ qui prolonge $-\operateurs$.
+\\
+Pour l'instant rien n'indique que $B$ soit bijectif. Un candidat naturel pour son inverse est l'extension de $-L^{-1}_0M_0 : D(M_0) \longrightarrow D(L_0)$. En appliquant le même raisonnement qui vient de suivre on montre que l'on peut étendre $-L^{-1}_0M_0$ et que cette extension est précisément $B^{-1}$, de plus elle est continue sur $\Hone$. 
+\\
+Notre équation \eqref{edo_ML} devient donc
+\begin{eqnarray}\label{edo_ML_B}
+\begin{cases}
+    u'(t) = Bu(t)  \\
+    u(0) = u_0
+\end{cases}
+\end{eqnarray}
+
+\subsubsection*{Existence et unicité.} 
+Dans le cas d'un système différentiel linéaire de la forme
+\begin{equation*}
+    \left\{\begin{array}{c}
+        u' + Au = 0 \\
+        u(0) = u_0
+    \end{array}\right.
+\end{equation*}
+Nous savons que la solution est de la forme $u = e^{-tA} u_0$. Pour résoudre \eqref{edo_ML_B} nous allons définir $\exp(tB)$. Tout d'abord, $B \in \mathscr{L}(\Hone)$. Et $\mathscr{L}(\Hone)$ est un espace vectoriel, donc pour tout $t \in \bbR$, $t B \in \mathscr{L}(\Hone)$. De plus, comme $\Hone$ est complet, $\mathscr{L}(\Hone)$ l'est aussi et on peut donc définir l'exponentielle de la façon suivante
+\begin{eqnarray*}
+\forall t \in \mathbb{R},\  E(t) := \exp(tB) = \sum_{k=0}^{+\infty} \frac{(tB)^k}{k!}
+\end{eqnarray*}
+À l'aide de la norme opérateur, on obtient
+\begin{equation*}
+    \forall t\in \mathbb{R}, \ \vertiii{E(t)}_{1} \leq \sum_{k=0}^{+\infty}\frac{\vertiii{(tB)^k}_{1}}{k!} \leq \sum_{k=0}^{+\infty}\frac{|t|^k\vertiii{B}_{1}^k}{k!} \leq \exp\big(\abs{t}\vertiii{B}_1\big) < +\infty
+\end{equation*}
+où $\vertiii{\cdot}_1$ désigne la norme d'opérateur sur $H^1$. Donc $\{ E(t) \ | \ t \in \mathbb{R} \} $ est un ensemble d'opérateurs continus de $\Hone$.
+\begin{remark}\label{remarque_operateur}
+    \begin{enumerate}
+        \item \label{E_groupe_abelien} $\{ E(t) \ | \ t \in \mathbb{R} \}$ est un groupe abélien. 
+        \item Chaque $E(t)$ est un opérateur bornée de $\Hone$ et la dépendance en $t$ est continue pour la topologie des opérateurs. En effet, soit 
+        $t_0 \in \bbR$, on a par continuité de $\exp$ et par continuité de $B$
+        \begin{eqnarray*}
+            \vertiii{E(t)-E(t_0)}_1 &=& \vertiii{\ex^{tB}-\ex^{t_0B}}_1 \\
+            &=& \vertiii{\ex^{t_0B}\big(\ex^{(t-t_0)B}-I\big)}_1 \\
+            &\leq& \vertiii{\ex^{t_0B}}_1\vertiii{\ex^{(t-t_0)B}-I}_1 \\
+            &=& \vertiii{\ex^{t_0B}}_1 \vertiii{\sum_{k=1}^{+\infty}\frac{\big((t-t_0)B\big)^k}{k!}} \\
+            &\leq& \vertiii{\ex^{t_0B}}_1 (\exp{(|t-t_0|\vertiii{B}_1)}-1)\underset{t \to t_0}{\longrightarrow} 0
+        \end{eqnarray*}
+        \item $E(t)$ est dérivable pour la topologie des opérateurs et $E'(t) = B E(t)$. En effet, soit $h>0$, on utilise le fait que $\{ E(t) \ | \ t \in \mathbb{R} \}$ est un groupe abélien et que $E$ est continue en $t$
+        \begin{eqnarray*}
+            \vertiii{\frac{E(t+h)-E(t)}{h}-BE(t)}_1 &=& \vertiii{E(t)\Big(\frac{E(h)-I}{h}\Big)-B} \\
+            &\leq& \vertiii{E(t)}_1 \vertiii{\frac{E(h)-I}{h}-B}_1 \\
+            &=& \vertiii{E(t)}_1 \vertiii{BE(h)-B}_1\underset{h \to 0}{\longrightarrow} 0
+        \end{eqnarray*}
+        car par un changement d'indice on a obtenu
+        \begin{equation*}
+            \frac{E(h)-I}{h} = \frac{1}{h}\sum_{k=1}^{+\infty} \frac{h^kB^k}{k!} = \sum_{k=1}^{+\infty} \frac{h^{k-1}B^k}{k!} = \sum_{k=0}^{+\infty}\frac{h^kB^{k+1}}{k!} = BE(h)
+        \end{equation*}
+    \end{enumerate}
+\end{remark}
+Soit $u_0 \in \Hone$. On pose pour tout $t \in \bbR,\ u(t) = E(t)u_0$.
+Alors par la remarque précédente, on obtient
+\begin{eqnarray*}
+    u'(t) = E'(t)u_0 = B E(t)u_0 = Bu(t)
+\end{eqnarray*}
+Le point \ref{E_groupe_abelien} de notre remarque implique aussi que $E(0) = I$, donc
+\begin{eqnarray*}
+    u(0) = E(0)u_0 = u_0
+\end{eqnarray*}
+On a bien montré l'existence d'une solution au problème \eqref{edo_ML_B}. Montrons maintenant que cette solution est unique. Soit $v(t)$ un autre solution du problème. On pose $w$ tel que
+\begin{eqnarray*}
+    \forall t \in \bbR ,\ w(t) := u(t) - v(t)
+\end{eqnarray*}
+Alors
+\begin{align*}
+    w'(t) &= u'(t) - v'(t) & \text{ et } &&w(0) &= u(0) -v(0)\\
+          &=Bu(t) - Bv(t)  &           &&       &= u_0 - u_0\\
+          &=B(u(t) - v(t)) &           &&       &= 0 \\
+          &=Bw(t)          &           &&    
+\end{align*}
+Donc $w(t)$ est aussi solution du problème \eqref{edo_ML_B} avec pour donnée initiale $w(0)=0$. Posons 
+\begin{equation*}
+    \forall t \in \bbR, \ \alpha(t) := \|w(t)\|_{H^1}^2=\ps{w(t)}{w(t)}_{H^1}
+\end{equation*}
+Alors
+\begin{eqnarray*}
+    \alpha'(t) &=& \lim_{h \to 0} \frac{\alpha(t+h) - \alpha(t)}{h} \\
+    &=& \limm \Big( \big\langle w(t+h),\ w(t+h)\big\rangle_{H^1} - \big\langle w(t),\ w(t)\big\rangle_{H^1} \Big) \\
+    &=& \limm \Big( \big\langle w(t+h),\ w(t+h)\big\rangle_{H^1} - \big\langle w(t+h),w(t)\big\rangle_{H^1} \\
+    &+& \big\langle w(t+h),w(t)\big\rangle_{H^1}-\big\langle w(t),\ w(t)\big\rangle_{H^1} \Big) \\
+    &=& \limm \Big(\big\langle w(t+h), w(t+h) - w(t)\big\rangle_{H^1} + \big\langle w(t+h) - w(t), w(t)\big\rangle \Big) \\
+    &=& \lim_{h \to 0} \Big(\Big\langle w(t+h), \frac{w(t+h) - w(t)}{h}\Big\rangle_{H^1} - \Big\langle \frac{w(t+h) - w(t)}{h}, w(t)\Big\rangle_{H^1} \Big) \\
+    &=& 2 \big\langle w'(t), w(t) \big\rangle_{H^1} \\
+    &=& 2 \big\langle Bw(t), w(t) \big\rangle_{H^1}
+\end{eqnarray*}
+En appliquant l'inégalité de Cauchy-Schwarz on aboutit au résultat suivant
+\begin{eqnarray*}
+    \abs{\alpha'(t)} &=& \abs{2 \int_{\Omega}Bw(t)w(t) + 2\int_{\Omega}D\big(Bw(t)\big) \ D\big(w(t)\big)} \\
+    &\leq& 2 \norm{Bw(t)}_{L^2} \norm{w(t)}_{L^2} + 2\norm{D\big(Bw(t)\big)}_{L^2} \norm{D\big(w(t)\big)}_{L^2} \\
+    &\leq& 2 \norm{B}_1 \norm{w(t)}^2_{L^2} + \norm{B}_1 \norm{D\big(w(t)\big)}^2_{L^2} \\
+    &=& 2 \norm{B}_1 \norm{w(t)}^2_{H^1}\\
+    &=& 2\norm{B}_1 \alpha(t)    
+\end{eqnarray*}
+Ce qui nous permet d'utiliser le lemme de Grönwall
+\begin{eqnarray*}
+    \forall t \in \bbR, \ \alpha(t) \leq \alpha(0)\exp\bigr(\abs{t}\norm{B}_1\bigl)
+\end{eqnarray*}
+et donc
+\begin{eqnarray*}
+    0 \leq \norm{w(t)}^2_{H^1} \leq \norm{w(0)}^2_{H^1} \exp\bigr(\abs{t}\norm{B}_1\bigl)
+\end{eqnarray*}
+Or, $w(0) = 0$, donc $\norm{w(0)}^2_{H^1}=0$, ainsi
+\begin{eqnarray*}
+    \forall t \in \bbR, \ \norm{w(t)}^2_1 = 0 \Longrightarrow w(t) = 0
+    \Longrightarrow u(t) = v(t)
+\end{eqnarray*}
+D'où l'unicité de la solution.
+
+\subsubsection*{Vérification de la solution au sens faible.}
+Vérifions que pour tout $t \in \bbR,\ u(t)$ est solution du problème variationel
+\begin{eqnarray*}
+    \forall \varphi \in \scrD,\ \frac{\mathrm{d}}{\mathrm{d}t}b_M\big(u(t),\varphi\big) + b_L\big(u(t),\varphi\big) = 0
+\end{eqnarray*}
+Soit $t\in\bbR$, alors $u(t) \in \Hone$ et par densité de $\scrD$, il existe une suite $(\varphi_n)_{n\in \mathbb{N}} \subset \scrD$ tel que $\varphi_n \overunderset{\Hone}{n\rightarrow + \infty}\longrightarrow u(t)$. Par continuité, on a alors
+\begin{eqnarray*}
+    b_M(u'(t), \varphi) + b_L(u(t), \varphi) &=& \lim_{n \to +\infty} \big(b_M(B\varphi_n, \varphi) + b_L(\varphi_n,\varphi)\big) \\
+    &=& \lim_{n\to +\infty} \big(\langle M_0B\varphi_n, \varphi\rangle_{L^2} + \langle L_0\varphi_n, \varphi\rangle_{L^2}\big) \\
+    &=& \lim_{n \to +\infty} \langle M_0B\varphi_n + L_0\varphi_n,\ \varphi\rangle_{L^2} \\
+    &=& 0
+\end{eqnarray*}
+Où pour la dernière égalité on a utilisé le fait que $M_0B = -M_0M^{-1}_0L_0 = -L_0$ et donc $M_0B\varphi_n+ L_0\varphi_n = 0$, pour tout $n \in \mathbb{N}$. L'existence et l'unicité d'une solution faible à notre problème est bien démontré.
+
+\subsubsection{L'équation vectorielle}
+Cette section fait suite à la section \ref{RS_vectorielle}. 
+L'objectif ici est d'adapter le raisonnement de Showalter et Ting 
+pour l'équation vectorielle. On repart donc du système 
+\eqref{eq_RS}. Nous considérons un ouvert borné à la frontière 
+suffisamment régulière $\Omega \subset \bbR^d$. 
+Pour simplifier l'étude, on prendra des conditions de 
+Dirichlet homogènes et $\bfm{f}=0$. On considère le problème 
+aux limites suivant
+d'inconnues $\bfm{u}$ et $\tilde{p}$
+\begin{equation*}
+    \left\{\begin{array}{ll}
+        \partial_t\bfm{u}(t,x) - \nu\Delta \bfm{u}(t,x) - \alpha\Delta \big(\partial_t \bfm{u}(t,x)\big) = -\nabla \tilde{p}(t,x) & \forall (t,x) \in \bbR \times \Omega  \\
+         \Div (\bfm{u}(t,x)) = 0 & \forall (t,x) \in \bbR \times \Omega \\
+         \bfm{u}(t,x) = 0 & \forall (t,x) \in \bbR \times \partial \Omega \\
+         \bfm{u}(0,x) = \bfm{u}_0(x) & \forall x \in \Omega
+    \end{array}\right.
+\end{equation*}
+Comme dans la section précédente, on va chercher des solutions sous la forme
+$\bfm{u} : \bbR \rightarrow \big(\Hone\big)^d$ et $\tilde{p} : \bbR \rightarrow L^2(\Omega)$.
+\\
+On considère alors le problème : trouver $(\bfm{u},\tilde{p}) \in \scrC^1\big(\bbR, \big(\Hone\big)^d\big) \times \scrC^0(\bbR, L^2(\Omega))$ tel que
+\begin{equation*}
+    \left\{\begin{array}{l}
+        \bfm{u}'(t) - \nu\Delta \bfm{u}(t) - \alpha\Delta \big(\bfm{u}'(t)\big) = -\nabla \tilde{p}(t) \\
+         \Div (\bfm{u}(t)) = 0 \\
+         \bfm{u}(0) = \bfm{u}_0 
+    \end{array}\right.
+\end{equation*}
+On introduit les opérateurs différentiels vectoriels
+\begin{eqnarray*}
+    \calM := I - \alpha \Delta \ \ \ \ \ &\text{ et }& \ \ \ \ \ \calL := -\nu \Delta
+\end{eqnarray*}
+L'objectif étant de reproduire l'analyse de la section précédente, on voudrait \og supprimer \fg{} le terme 
+$\nabla \tilde{p}$. Pour ça, on introduit l'espace de Hilbert (voir Annexe \ref{AnnexeB})
+\begin{equation*}
+    V := \{\bfm{v} \in \big(\Hone\big)^d \ \ | \ \ \Div(\bfm{v}) = 0\}
+\end{equation*}
+et l'espace 
+\begin{equation*}
+    \calD_{\sigma}(\Omega) := \{\bfm{\varphi} \in \big(\calD(\Omega)\big)^d \ \ | \ \ \Div(\bfm{\varphi}) = 0\}
+\end{equation*}
+
+\begin{theoreme}\label{thm_densite}
+    Si $\Omega \subset \bbR^d$ est un ouvert borné à la frontière suffisamment régulière alors $\calD_{\sigma}(\Omega)$ est dense dans $V$.
+\end{theoreme}
+
+Voir Annexe \ref{AnnexeB} pour la démonstration.
+\\
+On obtient alors un nouveau problème : trouver $(\bfm{u}, \tilde{p}) \in \scrC^1(\bbR, V) \times \scrC^0(\bbR, L^2(\Omega))$ tel que
+\begin{equation}\label{pbmRSvectoriel}
+    \left\{\begin{array}{l}
+        \bfm{u}'(t) - \nu\Delta \bfm{u}(t) - \alpha\Delta \big(\bfm{u}'(t)\big) = -\nabla \tilde{p}(t) \\
+         \bfm{u}(0) = \bfm{u}_0 
+    \end{array}\right.
+\end{equation}
+On va établir une formulation variationnelle de \eqref{pbmRSvectoriel}. Soit $\bfm{v} \in V$.
+\begin{eqnarray*}
+    \int_{\Omega}\bfm{u}'(t) \cdot \bfm{v} - \nu \int_{\Omega} \Delta \bfm{u}(t) \cdot \bfm{v} - \alpha \int_{\Omega} \Delta\big(\bfm{u}'(t)\big) \cdot \bfm{v} = -\int_{\Omega} \nabla \tilde{p}(t) \cdot \bfm{v}
+\end{eqnarray*}
+On a en utilisant les formules de Green
+\begin{eqnarray*}
+    - \nu \int_{\Omega} \Delta \bfm{u}(t) \cdot \bfm{v} &=& \nu \int_{\Omega} \nabla \bfm{u}(t) : \nabla \bfm{v} -\nu \int_{\partial\Omega}\big(\nabla \bfm{u}(t) \cdot n) \cdot \bfm{v} \\
+    - \alpha \int_{\Omega} \Delta\big(\bfm{u}'(t)\big) \cdot \bfm{v} &=& \alpha \int_{\Omega} \nabla \big(\bfm{u}'(t)\big) : \nabla \bfm{v} - \alpha \int_{\partial \Omega} \big(\nabla \big(\bfm{u}'(t)\big)\cdot n \big) \cdot \bfm{v}
+\end{eqnarray*}
+On utilise le fait que $\bfm{v} \in V$ donc en particulier $\bfm{v} \in \big(\Hone\big)^d$ donc 
+\begin{eqnarray*}
+    - \nu \int_{\Omega} \Delta \bfm{u}(t) \cdot \bfm{v} &=& \nu \int_{\Omega} \nabla \bfm{u}(t) : \nabla \bfm{v} \\
+    - \alpha \int_{\Omega} \Delta\big(\bfm{u}'(t)\big) \cdot \bfm{v} &=& \alpha \int_{\Omega} \nabla \big(\bfm{u}'(t)\big) : \nabla \bfm{v}
+\end{eqnarray*}
+Enfin, on a 
+\begin{equation*}
+    \Div(p(t)\bfm{v}) = \nabla p(t) \cdot \bfm{v} + p(t)\Div(\bfm{v}) \Longrightarrow \nabla p(t) \cdot \bfm{v} = \Div(p(t)\bfm{v}) - p(t)\Div(\bfm{v})
+\end{equation*}
+d'où
+\begin{equation*}
+    \int_{\Omega} \nabla \tilde{p}(t) \cdot \bfm{v} = \int_{\Omega}\Div(p(t)\bfm{v}) - \int_{\Omega} p(t)\Div(\bfm{v})
+\end{equation*}
+et enfin, en utilisant le théorème de la divergence et le fait que $\bfm{v} \in V$ on obtient 
+\begin{equation*}
+    \int_{\Omega} \nabla \tilde{p}(t) \cdot \bfm{v} = \int_{\Omega}\Div(p(t)\bfm{v}) - \int_{\Omega} p(t)\Div(\bfm{v}) = \int_{\partial \Omega} p(t)(\bfm{v} \cdot n) - \int_{\Omega} p(t)\Div(\bfm{v}) = 0
+\end{equation*}
+On obtient alors la formulation faible : trouver $\bfm{u} \in \scrC^1\big(\bbR, V)$ tel que 
+\begin{equation*}
+    \forall \bfm{v} \in V, \ \int_{\Omega}\bfm{u}'(t) \cdot \bfm{v} + \nu \int_{\Omega} \nabla \bfm{u} : \nabla \bfm{v} + \alpha \int_{\Omega} \nabla \big(\bfm{u}'(t)\big) : \nabla \bfm{v} = 0
+\end{equation*} 
+On définit ainsi deux formes bilinéaires sur $V$ associées aux opérateurs vectoriels 
+\begin{eqnarray*}
+    B_{\calM}(\bfm{\varphi}, \bfm{\psi}) = \int_{\Omega} \big(\bfm{\varphi}\cdot\bfm{\psi}+\alpha\nabla \bfm{\varphi} : \nabla \bfm{\psi}\big) \ \ \ \ \ &\text{ et }& \ \ \ \ \
+    B_{\calL}(\bfm{\varphi}, \bfm{\psi}) = \nu\int_{\Omega} \nabla \bfm{\varphi} : \nabla \bfm{\psi}
+\end{eqnarray*}
+On considère donc le problème  : trouver $\bfm{u} \in \scrC^1\big(\bbR, V)$ tel que 
+\begin{equation}\label{formulation_faible_vectorielle}
+    \forall t \in \bbR, \ \forall \bfm{v} \in V, \ B_{\calM}\big(\bfm{u}'(t), v\big) + B_{\calL}\big(\bfm{u}(t),v\big) = 0
+\end{equation}
+On cherche de nouveau à appliquer le théorème \ref{thm_lax}. On a déjà
+$H=V$, il nous faut identifier qui joue le rôle de $H_0$. On voudrait reproduire le raisonnement dans le cas scalaire et ainsi identifier un espace 
+de Hilbert $H_0$ tel que 
+\begin{eqnarray*}
+    \calD_{\sigma}(\Omega) \subset V \subset H_0 \ \ \ \ \ &\text{ et }&
+    \ \ \ \ \ \overline{\calD_{\sigma}(\Omega)}^{H_0} = H_0
+\end{eqnarray*}
+%On choisit alors 
+%\begin{equation*}
+%    H_0 := \{ \bfm{f} \in \big(L^2(\Omega)\big)^d \ \ | \ \ \Div(\bfm{f}) = 0 \text{ et } \bfm{f}\cdot n = 0 \text{ sur } \partial \Omega \}
+%\end{equation*}
+%$H_0$ est un sous-espace fermé de $\big(L^2(\Omega)\big)^d$, en effet
+%
+%\begin{theoreme}
+%    Si $\Omega$ (hypothèses ?) alors $\calD_{\sigma}(\Omega)$ est dense dans $H_0$.
+%\end{theoreme}
+%
+%Voir Annexe ? pour la démonstration.
+%\\
+%Donc $V$ est également dense dans $H_0$.
+Supposons l'existence d'un tel espace de Hilbert, dont la norme vérifie de plus l'inégalité \eqref{ineq_thm_lax}.
+De manière identique que pour les formes bilinéaires $b_M$ et $b_L$, on vérifie que $B_{\calM}$ et $B_{\calL}$ sont continues et coercives sur $V$.
+On peut alors appliquer le théorème \ref{thm_lax}, ainsi il existe deux opérateurs bijectifs $\calM_0 : D(\calM_0) \rightarrow H_0$ et $\calL_0 : D(\calL_0) \rightarrow H_0$ qui prolongent les opérateurs $\calM$ et $\calL$, et dont les domaines de définitions sont denses dans $V$.
+On a également l'existence d'un inverse continu $\calM_0^{-1}$, on peut alors réécrire l'équation de \eqref{pbmRSvectoriel}
+\begin{equation}\label{pbmRSvectoriel_operateur}
+    \bfm{u}'(t) = - \calM_0^{-1}\calL_0 \bfm{u}(t)
+\end{equation}
+L'opérateur $-\calM_0^{-1}\calL_0 : D(\calL_0) \rightarrow D(\calM_0)$ est une bijection et, de façon similaire à l'opérateur $-M_0^{-1}L_0$, on montre que $-\calM_0^{-1}\calL_0$ est continu sur $V$ et ainsi on applique le théorème \ref{thm_prolongement} et on prolonge de manière unique $-\calM_0^{-1}\calL_0$ en l'opérateur $\calB : V \rightarrow V$.
+Cet opérateur $\calB$ est inversible d'inverse continu sur $V$.
+Ainsi, \eqref{pbmRSvectoriel_operateur} devient 
+\begin{equation}\label{pbmRSvectoriel_opB}
+    \bfm{u}'(t) = \calB \bfm{u}(t)
+\end{equation}
+On veut maintenant définir $\exp(t\calB)$. Comme pour l'équation 
+scalaire $\calB \in \mathscr{L}(V)$. Et $\mathscr{L}(V)$ est 
+un espace vectoriel complet, car $V$ est complet, on peut donc 
+définir l'exponentielle de la façon suivante
+\begin{eqnarray*}
+\forall t \in \mathbb{R},\  \calE(t) := \exp(t\calB) = \sum_{k=0}^{+\infty} \frac{(t\calB)^k}{k!}
+\end{eqnarray*}
+À l'aide de la norme opérateur l'on obtient ainsi
+\begin{equation*}
+    \forall t\in \mathbb{R}, \ \vertiii{\calE(t)}_1 \leq \exp\big(\abs{t}\vertiii{\calB}_1\big)
+\end{equation*}
+Donc $\{ \calE(t) \ | \ t \in \mathbb{R} \} $ est un ensemble d'opérateurs continus de $V$.
+
+\begin{remark}
+    La remarque \ref{remarque_operateur} s'applique à $\calE$.
+\end{remark}
+
+Soit $\bfm{u}_0 \in V$. On pose pour tout $t \in \bbR,\ \bfm{u}(t) = \calE(t)\bfm{u}_0$.
+Alors par la remarque précédente, on obtient
+\begin{eqnarray*}
+    \bfm{u}'(t) = \calE'(t)\bfm{u}_0 = \calB \calE(t)\bfm{u}_0 = \calB \bfm{u}(t)
+\end{eqnarray*}
+Notre remarque précédente implique aussi que $\calE(0) = I$, donc
+\begin{eqnarray*}
+    \bfm{u}(0) = \calE(0)\bfm{u}_0 = \bfm{u}_0
+\end{eqnarray*}
+d'où l'existence. Pour montrer l'unicité, il suffit de reproduire 
+le raisonnement scalaire. Soit $\bfm{v}(t)$ un autre solution du 
+problème \eqref{pbmRSvectoriel_opB}. On pose $\bfm{w}$ tel que
+\begin{eqnarray*}
+    \forall t \in \bbR ,\ \bfm{w}(t) := \bfm{u}(t) - \bfm{v}(t)
+\end{eqnarray*}
+Alors $\bfm{w}(t)$ est aussi solution du problème \eqref{pbmRSvectoriel_opB} avec pour donnée initiale $\bfm{w}(0)=0$. Posons 
+\begin{equation*}
+    \forall t \in \bbR, \ \alpha(t) := \|\bfm{w}(t)\|_{H^1}^2=\ps{\bfm{w}(t)}{\bfm{w}(t)}_{H^1}
+\end{equation*}
+Alors
+\begin{eqnarray*}
+    \alpha'(t)= 2 \big\langle \calB \bfm{w}(t), \bfm{w}(t) \big\rangle_{H^1}
+\end{eqnarray*}
+En appliquant l'inégalité de Cauchy-Schwarz on aboutit au résultat suivant
+\begin{eqnarray*}
+    \abs{\alpha'(t)} \leq 2\norm{\calB}_1 \alpha(t)    
+\end{eqnarray*}
+Ce qui nous permet d'utiliser le lemme de Grönwall
+\begin{eqnarray*}
+    \forall t \in \bbR, \ \alpha(t) \leq \alpha(0)\exp\big(\abs{t}\norm{\calB}_1\big)
+\end{eqnarray*}
+et donc
+\begin{eqnarray*}
+    0 \leq \norm{\bfm{w}(t)}^2_{H^1} \leq \norm{\bfm{w}(0)}^2_{H^1} \exp\big(\abs{t}\norm{\calB}_1\big)
+\end{eqnarray*}
+Or, $\bfm{w}(0) = 0$, donc $\norm{\bfm{w}(0)}^2_{H^1}=0$, ainsi
+\begin{eqnarray*}
+    \forall t \in \bbR, \ \norm{\bfm{w}(t)}^2_1 = 0 \Longrightarrow \bfm{w}(t) = 0
+    \Longrightarrow \bfm{u}(t) = \bfm{v}(t)
+\end{eqnarray*}
+D'où l'unicité de la solution. Vérifions que pour tout $t \in \bbR,\ \bfm{u}(t)$ est solution du problème variationnel
+\begin{eqnarray*}
+    \forall \bfm{\varphi} \in \calD_{\sigma}(\Omega),\ \frac{\mathrm{d}}{\mathrm{d}t}B_{\calM}\big(\bfm{u}(t),\bfm{\varphi}\big) + B_{\calL}\big(\bfm{u}(t),\bfm{\varphi}\big) = 0
+\end{eqnarray*}
+Soit $t\in\bbR$, alors $\bfm{u}(t) \in V$ et par densité de $\calD_{\sigma}(\Omega)$, il existe une suite $(\bfm{\varphi}_n)_{n\in \mathbb{N}} \subset \calD_{\sigma}(\Omega)$ tel que $\bfm{\varphi}_n \overunderset{V}{n\rightarrow + \infty}\longrightarrow \bfm{u}(t)$. Par continuité, on a alors
+\begin{eqnarray*}
+    B_{\calM}(\bfm{u}'(t), \bfm{\varphi}) + B_{\calL}(\bfm{u}(t), \bfm{\varphi}) = 0
+\end{eqnarray*}
+L'existence et l'unicité d'une solution faible à notre problème 
+est bien démontré.
+\paragraph{Détermination de la pression.} Il faut maintenant revenir au problème initial et déterminer $\tilde{p}$. Pour ça, on se base sur le raisonnement mené dans la section $2$ de \cite{Temam1977}. Pour tout $t \in \bbR$, $\bfm{u}(t) \in V$ est solution de \eqref{formulation_faible_vectorielle} donc pour tout $t \in \bbR$, $\bfm{u}(t)$ est solution au sens des distributions. On a donc pour tout $t \in \bbR$
+\begin{equation*}
+    \forall \bfm{v} \in \calD_{\sigma}(\Omega), \ \langle \bfm{u}'(t) - \nu \Delta \bfm{u}(t) - \alpha \Delta \bfm{u}'(t), \bfm{v} \rangle = 0
+\end{equation*}
+On utilise 
+\begin{proposition}[Lemme de De Rham]\label{lemme_De_Rham}
+    Soient un ouvert $\Omega \subset \bbR^d$ et $\bfm{f} \in \big(\calD'(\Omega)\big)^d$. Alors il existe 
+    $p \in \calD'(\Omega)$ tel que $\bfm{f} = \nabla p$ si et seulement si 
+    \begin{equation*}
+        \forall \bfm{v} \in \calD_{\sigma}(\Omega), \ \langle \bfm{f}, \bfm{v} \rangle =0
+    \end{equation*}
+\end{proposition}
+On applique ce résultat pour $\bfm{u}'(t) - \nu \Delta \bfm{u}(t) - \alpha \Delta\bfm{u}'(t) \in V'$, ce qui nous donne l'existence de $p \in \calD'(\Omega)$ tel que 
+\begin{equation*}
+    \bfm{u}'(t) - \nu \Delta \bfm{u}(t) - \alpha\Delta \bfm{u}'(t) = -\nabla p
+\end{equation*}
+au sens des distributions. Et ceci étant vrai pour tout $t \in \bbR$, on définit une fonction $\tilde{p}:\bbR \rightarrow \calD'(\Omega)$ telle que 
+\begin{equation*}
+    \bfm{u}'(t) - \nu \Delta \bfm{u}(t) - \alpha\Delta \bfm{u}'(t) = -\nabla \tilde{p}(t)
+\end{equation*}
+
+\begin{remark}
+    L'idée générale du raisonnement pour montrer l'existence et l'unicité d'une solution $\bfm{u}$ et l'existence d'une solution $\tilde{p}$ à l'équation vectorielle \eqref{RS_vectorielle} est ici. Il reste cependant de nombreux points à détailler
+    \begin{enumerate}
+        \item il nous faudrait identifier l'espace de Hilbert $H_0$, il s'agit certainement d'un sous-ensemble de $\big(L^2(\Omega)\big)^d$ à divergence nulle mais avec une condition supplémentaire, car la seule condition de divergence nulle ne permet pas de conclure ;
+        \item la démonstration du théorème \ref{thm_densite} est incomplète et ne nous permet pas de conclure quant à la densité de $\calD_{\sigma}(\Omega)$ dans $V$ ;
+        \item une démonstration du lemme de De Rham \ref{lemme_De_Rham} qui est un résultat que nous admettons ici ;
+        \item justifier l'inclusion $V' \subset \big(\calD'(\Omega)\big)^d$ afin d'utiliser le lemme de De Rham ;
+        \item montrer que pour tout $t \in \bbR$, $\tilde{p}(t) \in L^2(\Omega)$, la proposition 1.2 de \cite{Temam1977} permettrait d'établir cela.
+    \end{enumerate}
+\end{remark}
+
+
+\newpage
