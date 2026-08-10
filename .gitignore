@@ -1,0 +1,28 @@
+# Fichiers temporaires LaTeX
+*.aux
+*.bbl
+*.bbl-SAVE-ERROR
+*.log
+*.bib
+*.blg
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.sty
+
+# Fichiers temporaires C++
+*.sh
+*.o
+*.exe
+
+# Autres fichiers
+*.txt
