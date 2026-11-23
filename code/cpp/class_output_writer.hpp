@@ -2,7 +2,6 @@
 #include <fstream>
 #include "class_mesh.hpp"
 #include "class_field.hpp"
-#include "class_time_loop.hpp"
 
 
 template<typename T>
@@ -13,23 +12,24 @@ class output_writer
 
         ~output_writer(){};
 
-        void write_solution(field<T> solution, std::string loop_counter);
-        void write_solution(Vector<T> solution, std::string loop_counter);
-        inline const mesh_1d<T>& mesh() const { return mesh_; };
+        void write_solution(field<T> const& solution, std::string loop_counter);
+        void get_times(Vector<T> const& times, std::string loop_counter);
+        
+        const mesh_1d<T>& mesh() const { return mesh_; };
 
     protected :
         mesh_1d<T> const& mesh_;
         std::string radical_name_;
 };
 
-// ===== Definitions ===== //
+// ----- Definitions ----- //
 template<typename T>
-void output_writer<T>::write_solution(field<T> solution, std::string loop_counter)
+void output_writer<T>::write_solution(field<T> const& solution, std::string loop_counter)
 {
     std::string filename = radical_name_ + "_" + loop_counter + ".txt";
     std::ofstream my_file(filename);
 
-    for(size_t ii = 0; ii < mesh_.n_cells() + 1; ii++)
+    for(size_t ii = 0; ii < mesh_.n_vertices(); ii++)
     {
         my_file << mesh_.xv(ii) << " " << solution(ii) << std::endl;
     }
@@ -38,15 +38,15 @@ void output_writer<T>::write_solution(field<T> solution, std::string loop_counte
 }
 
 template<typename T>
-void output_writer<T>::write_solution(Vector<T> solution, std::string loop_counter)
+void output_writer<T>::get_times(Vector<T> const& times, std::string loop_counter)
 {
     std::string filename = radical_name_ + "_" + loop_counter + ".txt";
     std::ofstream my_file(filename);
 
-    for(size_t ii = 0; ii < mesh_.n_cells() + 1; ii++)
+    for(size_t ii = 0; ii < times.size(); ii++)
     {
-        my_file << mesh_.xv(ii) << " " << solution(ii) << std::endl;
+        my_file << times[ii] << std::endl;
     }
-    
+
     my_file.close();
 }

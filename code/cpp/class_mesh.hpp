@@ -13,10 +13,10 @@ class mesh_1d
 
         ~mesh_1d(){};
 
-        inline const size_t n_vertices() const { return n_vertices_ ;};
-        inline const size_t n_cells() const { return n_cells_; };
-        inline const T dx() const { return dx_; };
-        inline T xv(size_t ii) const { return vertices_coordinates_[ii]; };
+        const size_t n_vertices() const { return n_vertices_ ;};
+        const size_t n_cells() const { return n_cells_; };
+        const T dx() const { return dx_; };
+        T xv(size_t ii) const { return vertices_coordinates_[ii]; };
 
         void print();
 
@@ -27,7 +27,7 @@ class mesh_1d
         T dx_;
 };
 
-// ===== Definitions ===== //
+// ----- Definitions -----
 template<typename T>
 mesh_1d<T>::mesh_1d(T x_left, T x_right, size_t n_cells) : n_cells_(n_cells), n_vertices_(n_cells + 1), vertices_coordinates_(n_cells + 1)
 {   

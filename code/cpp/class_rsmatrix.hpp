@@ -19,11 +19,11 @@ class rsmatrix
 
         ~rsmatrix(){};
 
-        inline const Matrix<T>& acces_Ainv() const { return A_inv_; };
-        inline const Matrix<T>& acces_B() const { return B_; };
-        inline const Vector<T>& acces_F() const { return F_; };
-        inline const T nu() const { return nu_; };
-        inline const T alpha() const { return alpha_; };
+        const Matrix<T>& acces_Ainv() const { return A_inv_; };
+        const Matrix<T>& acces_B() const { return B_; };
+        const Vector<T>& acces_F() const { return F_; };
+        const T nu() const { return nu_; };
+        const T alpha() const { return alpha_; };
         const mesh_1d<T>& mesh() const { return mesh_; };
 
         void assemble(T dt);

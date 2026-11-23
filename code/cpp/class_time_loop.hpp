@@ -1,6 +1,8 @@
 #pragma once
+#include <filesystem>
 #include "class_mesh.hpp"
 #include "class_field.hpp"
+#include "class_output_writer.hpp"
 #include "class_rsmatrix.hpp"
 
 template<typename T>
@@ -11,13 +13,14 @@ class time_loop
             : mesh_(msh), 
               final_time_(final_time), 
               n_time_(Nt),
-              RSmatrix_(msh, nu, alpha)
+              RSmatrix_(msh, nu, alpha),
+              times_(Nt + 1)
               {};
 
         ~time_loop(){};
 
-        inline const T final_time() const { return final_time_; };
-        inline const Matrix<T>& intermediate_solutions() const { return intermediate_solutions_; };
+        const T final_time() const { return final_time_; };
+        const Vector<T>& get_times() const { return times_; };
         void run(field<T>& uh);
 
     protected :
@@ -28,7 +31,7 @@ class time_loop
         mesh_1d<T> const& mesh_;
         rsmatrix<T> RSmatrix_;
 
-        Matrix<T> intermediate_solutions_;
+        Vector<T> times_;
 };
 
 // ----- Definitions -----
@@ -41,16 +44,14 @@ void time_loop<T>::run(field<T>& uh)
         abort();
     }
 
+    std::filesystem::remove_all("RS_solutions");
+    std::filesystem::create_directories("RS_solutions");
+    output_writer<T> out_stream(mesh_, "RS_solutions/solution");
+
+    out_stream.write_solution(uh, std::to_string(0));
+
     dt_ = final_time_ / n_time_;
     RSmatrix_.assemble(dt_);
-    intermediate_solutions_ = Matrix<T>::Zero(mesh_.n_cells() + 1, 4);
-
-    // Calculs des temps à stocker
-    std::vector<size_t> save_times;
-    for(size_t kk = 0; kk < 4; kk++)    
-    {
-        save_times.push_back((kk + 1) * n_time_ / 8);
-    }
 
     // Conditions de Dirichlet homogènes
     uh(0) = 0.;
@@ -63,24 +64,19 @@ void time_loop<T>::run(field<T>& uh)
         u(ii) = uh(ii + 1);
     }
 
-    // Calcul de la solution
-    for(size_t tt = 1; tt <= n_time_; tt++)
+    times_[0] = static_cast<T>(0);
+    for(size_t kk = 1; kk <= n_time_; kk++)
     {
+        // Stockage des temps
+        times_[kk] = dt_ * kk;
+        // Calcul de la solution à chaque temps
         u = RSmatrix_.acces_Ainv() * (RSmatrix_.acces_B() * u + dt_ * RSmatrix_.acces_F());
-        
-        for(size_t ii = 0; ii < 4; ii++)
+        // Passage en type field
+        for(size_t ii = 0; ii < mesh_.n_cells() - 1; ii++)
         {
-            if(tt == save_times[ii])
-            {
-                intermediate_solutions_.col(ii).segment(1, mesh_.n_cells() - 1) = u;
-            }
+            uh(ii + 1) = u(ii);
         }
-
-    }
-
-    // Passage en type field
-    for(size_t ii = 0; ii < mesh_.n_cells() - 1; ii++)
-    {
-        uh(ii + 1) = u(ii);
+        // Affichage des solutions à chaque pas de temps
+        out_stream.write_solution(uh, std::to_string(kk));
     }
 }

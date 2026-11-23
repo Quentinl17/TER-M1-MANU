@@ -1,28 +1,8 @@
 #pragma once
 #include <cmath>
 #include "class_mesh.hpp"
+#include "functions_data_problem.hpp"
 
-// ----- Definitions of functions -----
-// --- Initial ---
-double creneau(double xx)
-{
-    return 1.;
-}
-
-// donnée oscillante à hautes fréquences
-double sin_pulse(double xx)
-{
-    return sin(3.14 * xx); //+ sin(3.14 * 10. * xx);
-};
-
-// --- Second member ---
-double pression_cte(double xx)
-{
-    return -1.;
-};
-
-
-// ----- Definition of class field -----
 template<typename T>
 class field
 {
@@ -31,10 +11,10 @@ class field
 
         ~field(){};
 
-        inline const size_t n_cells() const { return n_cells_; };
-        inline const Vector<T>& operator()() const { return values_; };
-        inline T operator()(size_t ii) const { return values_[ii]; };
-        inline T& operator()(size_t ii){ return values_[ii]; };
+        const size_t n_cells() const { return n_cells_; };
+        const Vector<T>& operator()() const { return values_; };
+        T operator()(size_t ii) const { return values_[ii]; };
+        T& operator()(size_t ii){ return values_[ii]; };
 
     protected :
         size_t n_cells_{0};
