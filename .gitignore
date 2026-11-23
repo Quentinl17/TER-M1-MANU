@@ -22,8 +22,8 @@
 
 # Dossiers cachés
 references/
-programmation/prog_cpp/images
-programmation/prog_cpp/mckendrick_lotka_solution
+code/cpp/images
+code/cpp/RS_solutions
 
 # Fichiers temporaires C++
 *.sh
